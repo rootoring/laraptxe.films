@@ -62,4 +62,9 @@ const modules = [EffectCreative, Autoplay, Pagination, Navigation];
   font-weight: bold;
   color: #fff;
 }
+@media (max-width: 758px) {
+  .swiper {
+    height: 550px;
+  }
+}
 </style>

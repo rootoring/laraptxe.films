@@ -54,8 +54,8 @@ body {
 
 .container {
   max-width: $max-w;
-  min-width: $min-w;
   margin: 0 auto;
+  padding: 0 8px;
 }
 /* === removing default button style ===*/
 .button {

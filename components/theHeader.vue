@@ -58,4 +58,9 @@
 .search {
   width: 25px;
 }
+@media (max-width: 758px) {
+  nav {
+    display: none !important;
+  }
+}
 </style>

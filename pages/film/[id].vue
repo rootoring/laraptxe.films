@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <iframe
       id="cinemaplayer-iframe"
       frameborder="0"
@@ -8,12 +8,12 @@
       mozallowfullscreen="mozallowfullscreen"
       scrolling="no"
       style="
-        width: 500px;
-        height: 300px;
+        width: 100%;
+        height: 500px;
         border: 0px;
         padding: 0px;
         overflow: hidden;
-        position: relative;
+
         background: rgb(0, 0, 0);
       "
       width="1920"

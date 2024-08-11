@@ -2,14 +2,20 @@
   <div class="card d-flex flex-center-column">
     <div
       class="card-img d-flex items-center"
-      :style="{ backgroundImage: `url(${data?.backdrop?.url})` }"
+      :style="{
+        backgroundImage: `url(  ${
+          data?.backdrop?.url
+            ? transformImageUrlToOtt(data?.backdrop?.url)
+            : 'logo.jpg'
+        })`,
+      }"
     >
-      <div class="movie-info side-block">
+      <div class="movie-info">
         <NuxtLink :to="'film/' + data.id" class="title hov-text">{{
           data.name
         }}</NuxtLink>
         <p class="rating">Рейтинг: {{ data.rating.imdb }}</p>
-        <p class="description">{{ data.description }}</p>
+        <p class="description">{{ data.shortDescription }}</p>
         <p class="genre">
           Жанр:
           <span class="genres pl-xxs" v-for="(i, index) of data.genres"
@@ -22,12 +28,29 @@
   </div>
 </template>
 <script setup>
+function transformImageUrlToOtt(origUrl) {
+  // Используем регулярное выражение для извлечения идентификатора и хэша изображения
+  const regex = /\/(\d+)\/([a-f0-9\-]+)\/orig$/;
+  const match = origUrl.match(regex);
+
+  if (!match) {
+    throw new Error("URL не соответствует ожидаемому формату");
+  }
+
+  const imageId = match[1];
+  const imageHash = match[2];
+
+  // Формируем новый URL с указанным размером
+  const newUrl = `https://avatars.mds.yandex.net/get-ott/${imageId}/${imageHash}/2016x1134`;
+  return newUrl;
+}
+
 defineProps({
   data: Object,
 });
 </script>
-<style lang="scss">
-.movie-info.side-block {
+<style lang="scss" scoped>
+.movie-info {
   position: absolute;
   top: 50%;
   left: 5%;
@@ -79,6 +102,25 @@ defineProps({
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+  }
+}
+@media (max-width: 758px) {
+  .movie-info {
+    width: 90%;
+    top: auto;
+    bottom: 20px;
+    transform: translateY(0);
+    .title {
+      font-size: 1.6em;
+    }
+    .rating,
+    .description,
+    .genre,
+    .year {
+      margin: 7px 0;
+      height: 25px;
+      font-size: 18px;
+    }
   }
 }
 </style>

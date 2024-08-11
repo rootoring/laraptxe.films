@@ -1,7 +1,11 @@
 <template>
   <div
     class="movie-card"
-    :style="{ backgroundImage: `url(${data?.poster?.url})` }"
+    :style="{
+      backgroundImage: `url(${
+        data?.poster?.url ? transformImageUrl(data?.poster?.url) : 'logo.jpg'
+      })`,
+    }"
   >
     <div class="movie-info glass">
       <h2 class="title">{{ data?.name }}</h2>
@@ -16,7 +20,28 @@
 
 <script setup>
 import { reactive, toRefs } from "vue";
+function transformImageUrl(origUrl, size) {
+  // Используем регулярное выражение для извлечения идентификатора и хэша изображения
+  const regex = /\/(\d+)\/([a-f0-9\-]+)\/orig$/;
+  const match = origUrl.match(regex);
+  console.log(match);
+  if (!match) {
+    throw new Error("URL не соответствует ожидаемому формату");
+  }
 
+  const imageId = match[1];
+  const imageHash = match[2];
+
+  // Формируем новый URL с указанным размером
+  const newUrl = `https://avatars.mds.yandex.net/get-kinopoisk-image/${imageId}/${imageHash}/150x225`;
+  return newUrl;
+}
+const origUrl =
+  "https://image.openmoviedb.com/kinopoisk-images/6201401/8277905e-aa09-465d-b0de-7c389a42f215/orig";
+const size = "80x120";
+
+const transformedUrl = transformImageUrl(origUrl);
+console.log(transformedUrl);
 // Пример данных о фильме
 defineProps({
   data: Object,
@@ -38,7 +63,7 @@ defineProps({
   height: 300px;
   position: relative;
   transition: 0.4s all;
-  background-size: 100%;
+  background-size: 110%;
   background-position: center;
   background-repeat: no-repeat;
   &:hover {

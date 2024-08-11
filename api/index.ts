@@ -7,7 +7,7 @@ export default () => ({
   async fetchAllFilms() {
     try {
       const data = await fetch(
-        "https://api.kinopoisk.dev/v1.4/movie?page=1&limit=20&lists=top250",
+        "https://api.kinopoisk.dev/v1.4/movie/search?page=1&limit=10&query=",
         {
           headers: {
             "X-API-KEY": keys[currentKeyIndex],
@@ -49,6 +49,7 @@ export default () => ({
   },
   async fetchFilmsByName(name: string) {
     try {
+      console.log(keys[currentKeyIndex]);
       const data = await fetch(
         `https://api.kinopoisk.dev/v1.4/movie/search?page=1&limit=20&query=${name}`,
         {
@@ -62,9 +63,9 @@ export default () => ({
       }
       return data;
     } catch (error) {
-      if (error.status === 403 || error.status === 404) {
+      if (error.status === 403) {
         currentKeyIndex = (currentKeyIndex + 1) % keys.length;
-        return this.fetchFilm(id);
+        return this.fetchFilmsByName(id);
       } else {
         throw error;
       }
