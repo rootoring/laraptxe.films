@@ -1,0 +1,102 @@
+@import "utils";
+@import "base/reset";
+@import "base/typography";
+a:active, /* активная/посещенная ссылка */
+a:hover,  /* при наведении */
+a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.hov-text {
+  position: relative;
+  padding-bottom: 3px;
+  &:hover {
+    &::before {
+      width: 100% !important;
+      bottom: -2px;
+      position: absolute;
+      content: " ";
+      height: 2px;
+      background-color: rgb(145, 47, 202);
+    }
+  }
+}
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.slide-enter-active {
+  animation: slideIn 0.5s forwards;
+}
+
+.slide-leave-active {
+  animation: slideOut 0.5s forwards;
+}
+body {
+  font-family: "Helvetica";
+  background-color: #212121;
+}
+
+.container {
+  max-width: $max-w;
+  min-width: $min-w;
+  margin: 0 auto;
+}
+/* === removing default button style ===*/
+.button {
+  margin: 0;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+.list-move, /* apply transition to moving elements */
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: scaleY(0.7);
+}
+
+/* ensure leaving items are taken out of layout flow so that moving
+   animations can be calculated correctly. */
+.list-leave-active {
+  display: none;
+  position: absolute;
+}
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.4s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  transform: scale(10);
+}
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+}

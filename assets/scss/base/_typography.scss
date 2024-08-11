@@ -1,0 +1,20 @@
+@font-face {
+  font-family: "Raleway";
+  src: url("/assets/fonts/Raleway-VariableFont_wght.ttf") format("truetype");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Ubuntu";
+  src: url("/assets/fonts/Ubuntu-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Beer";
+  src: url("/assets/fonts/beer.ttf") format("truetype");
+}
+
+.font-ubuntu {
+  font-family: "Ubuntu";
+}
+.font-beer {
+  font-family: "Beer";
+}

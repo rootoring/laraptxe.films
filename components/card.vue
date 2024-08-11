@@ -1,0 +1,84 @@
+<template>
+  <div class="card d-flex flex-center-column">
+    <div
+      class="card-img d-flex items-center"
+      :style="{ backgroundImage: `url(${data?.backdrop?.url})` }"
+    >
+      <div class="movie-info side-block">
+        <NuxtLink :to="'film/' + data.id" class="title hov-text">{{
+          data.name
+        }}</NuxtLink>
+        <p class="rating">Рейтинг: {{ data.rating.imdb }}</p>
+        <p class="description">{{ data.description }}</p>
+        <p class="genre">
+          Жанр:
+          <span class="genres pl-xxs" v-for="(i, index) of data.genres"
+            >{{ i.name }}<span v-if="data.genres.length !== index + 1">, </span>
+          </span>
+        </p>
+        <p class="year">Год выпуска: {{ data.year }}</p>
+      </div>
+    </div>
+  </div>
+</template>
+<script setup>
+defineProps({
+  data: Object,
+});
+</script>
+<style lang="scss">
+.movie-info.side-block {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
+  backdrop-filter: blur(10px);
+  color: #fff;
+  padding: 20px;
+  width: 30%;
+  border-radius: 20px;
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: "Lato", sans-serif;
+}
+
+.title {
+  font-size: 2em;
+  margin-bottom: 10px;
+  cursor: pointer;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.genres {
+  display: inline-block;
+}
+.genres::first-letter {
+  text-transform: uppercase;
+}
+.rating,
+.description,
+.genre,
+.year {
+  margin: 5px 0;
+  height: 25px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.swiper-pagination-bullet-active {
+  background: rgb(145, 47, 202) !important;
+}
+.card {
+  height: 100%;
+  width: 100%;
+  .card-img {
+    width: 100%;
+    height: 100%;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+</style>
