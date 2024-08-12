@@ -52,14 +52,14 @@ defineProps({
 <style lang="scss" scoped>
 .movie-info {
   position: absolute;
-  top: 50%;
+  bottom: 10%;
   left: 5%;
-  transform: translateY(-50%);
+ 
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
   backdrop-filter: blur(10px);
   color: #fff;
   padding: 20px;
-  width: 30%;
+  width: 40%;
   border-radius: 20px;
 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -98,7 +98,6 @@ defineProps({
   .card-img {
     width: 100%;
     height: 100%;
-
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -106,12 +105,15 @@ defineProps({
 }
 @media (max-width: 758px) {
   .movie-info {
-    width: 90%;
+    width: 100%;
     top: auto;
-    bottom: 20px;
+    bottom: 0px;
     transform: translateY(0);
+    left: 0;
+    padding:14px;
+    border-radius: 0;
     .title {
-      font-size: 1.6em;
+      font-size: 1.2em;
     }
     .rating,
     .description,
@@ -119,7 +121,7 @@ defineProps({
     .year {
       margin: 7px 0;
       height: 25px;
-      font-size: 18px;
+      font-size: .7em;
     }
   }
 }

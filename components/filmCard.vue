@@ -1,4 +1,5 @@
 <template>
+  <NuxtLink :to="'film/' + data.id">
   <div
     class="movie-card"
     :style="{
@@ -15,7 +16,7 @@
         <span class="genre">{{ data?.rating?.imdb }}</span>
       </div>
     </div>
-  </div>
+  </div></NuxtLink>
 </template>
 
 <script setup>
@@ -96,5 +97,11 @@ defineProps({
 
 .details span {
   margin: 0 5px; /* Отступы между деталями */
+}
+@media (max-width: 758px) {
+  .movie-card{
+    width: 320px;
+    margin:0;
+  }
 }
 </style>

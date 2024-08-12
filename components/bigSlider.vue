@@ -64,7 +64,7 @@ const modules = [EffectCreative, Autoplay, Pagination, Navigation];
 }
 @media (max-width: 758px) {
   .swiper {
-    height: 550px;
+    height: 350px;
   }
 }
 </style>
