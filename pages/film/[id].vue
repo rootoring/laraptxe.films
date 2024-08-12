@@ -26,6 +26,11 @@
 import { useStore } from "../store/store";
 import { useRoute } from "vue-router";
 const store = useStore();
+useHead({
+  title:
+    `${store?.film?.name} | Смотреть онлайн бесплатно ${store?.film?.name} в хорошем качестве`,
+
+});
 
 const route = useRoute();
 onMounted(async () => {

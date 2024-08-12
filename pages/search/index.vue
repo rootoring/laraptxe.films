@@ -28,6 +28,11 @@ import filmCard from "../../components/filmCard.vue";
 const store = useStore();
 let filmName: Ref<string> = ref("");
 let debounceTimeout: ReturnType<typeof setTimeout> | null = null;
+  useHead({
+  title:
+    "Поиск фильмов и сериалов | Подборка фильмов Laraptxe.films",
+
+});
 onUnmounted(() => {
   store.films = [];
 });
