@@ -3,9 +3,6 @@
     <iframe
       id="cinemaplayer-iframe"
       frameborder="0"
-      allowfullscreen="allowfullscreen"
-      webkitallowfullscreen="webkitallowfullscreen"
-      mozallowfullscreen="mozallowfullscreen"
       scrolling="no"
       style="
         width: 100%;

@@ -8,7 +8,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@pinia/nuxt"],
   plugins: [
-    "../plugins/adblocker.js", // Указываем путь к нашему плагину
+    { src: "../plugins/gtag.client.ts", mode: "client" },
+    { src: "../plugins/yandex-metrika.client.ts", mode: "client" },
   ],
   css: ["~/assets/scss/main.scss"],
   build: {
