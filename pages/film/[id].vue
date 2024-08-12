@@ -33,27 +33,5 @@ useHead({
 const route = useRoute();
 onMounted(async () => {
   await store.fetchFilm(route.params.id);
-  const adSelectors = [
-    'iframe[src*="ads"]',
-    'iframe[src*="adservice"]',
-    'iframe[src*="ad"]',
-    'div[class*="ad"]',
-    'div[class*="ads"]',
-    'div[class*="banner"]',
-    'div[id*="ad"]',
-    'div[id*="ads"]',
-    'div[id*="banner"]',
-    "ins.adsbygoogle",
-    'div[id^="google_ads"]',
-  ];
-
-  // Проходим по каждому селектору и удаляем найденные элементы
-  adSelectors.forEach((selector) => {
-    const ads = document.querySelectorAll(selector);
-    console.log(ads);
-    ads.forEach((ad) => {
-      ad.remove();
-    });
-  });
 });
 </script>
