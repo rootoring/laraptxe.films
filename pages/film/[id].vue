@@ -27,13 +27,30 @@ import { useStore } from "../store/store";
 import { useRoute } from "vue-router";
 const store = useStore();
 useHead({
-  title:
-    `${store?.film?.name} | Смотреть онлайн бесплатно ${store?.film?.name} в хорошем качестве`,
-
+  title: `${store?.film?.name} | Смотреть онлайн бесплатно ${store?.film?.name} в хорошем качестве`,
 });
 
 const route = useRoute();
 onMounted(async () => {
   await store.fetchFilm(route.params.id);
+  const adSelectors = [
+    'iframe[src*="ads"]',
+    'iframe[src*="adservice"]',
+    'iframe[src*="ad"]',
+    'div[class*="ad"]',
+    'div[class*="ads"]',
+    'div[class*="banner"]',
+    "ins.adsbygoogle",
+    'div[id^="google_ads"]',
+  ];
+
+  // Проходим по каждому селектору и удаляем найденные элементы
+  adSelectors.forEach((selector) => {
+    const ads = document.querySelectorAll(selector);
+    console.log(ads);
+    ads.forEach((ad) => {
+      ad.remove();
+    });
+  });
 });
 </script>
