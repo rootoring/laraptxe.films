@@ -40,6 +40,9 @@ onMounted(async () => {
     'div[class*="ad"]',
     'div[class*="ads"]',
     'div[class*="banner"]',
+    'div[id*="ad"]',
+    'div[id*="ads"]',
+    'div[id*="banner"]',
     "ins.adsbygoogle",
     'div[id^="google_ads"]',
   ];
