@@ -94,10 +94,4 @@ defineProps({
 .details span {
   margin: 0 5px; /* Отступы между деталями */
 }
-@media (max-width: 758px) {
-  .movie-card {
-    width: 320px;
-    margin: 0;
-  }
-}
 </style>

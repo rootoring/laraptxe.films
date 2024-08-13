@@ -7,7 +7,7 @@ export default () => ({
   async fetchAllFilms() {
     try {
       const data = await fetch(
-        "https://api.kinopoisk.dev/v1.4/movie/search?page=1&limit=10&query=",
+        "https://api.kinopoisk.dev/v1.4/movie/search?page=1&limit=30&query=",
         {
           headers: {
             "X-API-KEY": keys[currentKeyIndex],

@@ -34,7 +34,13 @@ export default defineNuxtConfig({
         },
         { name: "twitter:image", content: "logoSite.jpg" },
       ],
-      link: [{ rel: "icon", type: "image/jpg", href: "logoSite.jpg" }],
+      link: [
+        { rel: "icon", type: "image/jpg", href: "logoSite.jpg" },
+        {
+          rel: "stylesheet",
+          href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css",
+        },
+      ],
     },
   },
   devtools: { enabled: true },

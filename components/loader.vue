@@ -12,7 +12,7 @@
 </template>
 <style>
 .sharingon-cont {
-  position: fixed;
+  position: absolute;
   display: flex;
 
   justify-content: center;

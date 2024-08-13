@@ -1,6 +1,13 @@
 @import "utils";
 @import "base/reset";
 @import "base/typography";
+.swiper-button-prev,
+.swiper-button-next {
+  color: $primary !important;
+}
+.swiper-pagination-bullet-active {
+  background: $primary !important;
+}
 a:active, /* активная/посещенная ссылка */
 a:hover,  /* при наведении */
 a {
@@ -53,7 +60,8 @@ body {
 }
 
 .container {
-  max-width: $max-w;
+  width: 100%;
+  max-width: 1200px; /* Ограничиваем максимальную ширину контейнера */
   margin: 0 auto;
   padding: 0 8px;
 }

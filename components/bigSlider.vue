@@ -15,15 +15,11 @@
       delay: 6500,
       disableOnInteraction: false,
     }"
-    :pagination="{
-      clickable: true,
-    }"
-    :navigation="true"
     :modules="modules"
     class="mySwiper3"
     loop
   >
-    <swiper-slide v-for="film in store.films.docs"
+    <swiper-slide v-for="film in store?.films?.docs?.slice(0, 10)"
       ><card :data="film"
     /></swiper-slide>
   </swiper>
@@ -39,13 +35,8 @@ import "swiper/css";
 
 import "swiper/css/effect-creative";
 
-import {
-  EffectCreative,
-  Autoplay,
-  Pagination,
-  Navigation,
-} from "swiper/modules";
-const modules = [EffectCreative, Autoplay, Pagination, Navigation];
+import { EffectCreative, Autoplay } from "swiper/modules";
+const modules = [EffectCreative, Autoplay];
 </script>
 <style>
 .swiper {
