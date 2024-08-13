@@ -49,7 +49,6 @@ export default () => ({
   },
   async fetchFilmsByName(name: string) {
     try {
-      console.log(keys[currentKeyIndex]);
       const data = await fetch(
         `https://api.kinopoisk.dev/v1.4/movie/search?page=1&limit=20&query=${name}`,
         {

@@ -1,22 +1,23 @@
 <template>
   <NuxtLink :to="'film/' + data.id">
-  <div
-    class="movie-card"
-    :style="{
-      backgroundImage: `url(${
-        data?.poster?.url ? transformImageUrl(data?.poster?.url) : 'logo.jpg'
-      })`,
-    }"
-  >
-    <div class="movie-info glass">
-      <h2 class="title">{{ data?.name }}</h2>
-      <div class="details">
-        <span class="year">{{ data?.year }}</span>
-        <!-- <span class="country">{{ data?.countries[0]?.name }}</span> -->
-        <span class="genre">{{ data?.rating?.imdb }}</span>
+    <div
+      class="movie-card"
+      :style="{
+        backgroundImage: `url(${
+          data?.poster?.url ? transformImageUrl(data?.poster?.url) : 'logo.jpg'
+        })`,
+      }"
+    >
+      <div class="movie-info glass">
+        <h2 class="title">{{ data?.name }}</h2>
+        <div class="details">
+          <span class="year">{{ data?.year }}</span>
+          <!-- <span class="country">{{ data?.countries[0]?.name }}</span> -->
+          <span class="genre">{{ data?.rating?.imdb }}</span>
+        </div>
       </div>
-    </div>
-  </div></NuxtLink>
+    </div></NuxtLink
+  >
 </template>
 
 <script setup>
@@ -25,7 +26,7 @@ function transformImageUrl(origUrl, size) {
   // Используем регулярное выражение для извлечения идентификатора и хэша изображения
   const regex = /\/(\d+)\/([a-f0-9\-]+)\/orig$/;
   const match = origUrl.match(regex);
-  console.log(match);
+
   if (!match) {
     throw new Error("URL не соответствует ожидаемому формату");
   }
@@ -37,13 +38,7 @@ function transformImageUrl(origUrl, size) {
   const newUrl = `https://avatars.mds.yandex.net/get-kinopoisk-image/${imageId}/${imageHash}/150x225`;
   return newUrl;
 }
-const origUrl =
-  "https://image.openmoviedb.com/kinopoisk-images/6201401/8277905e-aa09-465d-b0de-7c389a42f215/orig";
-const size = "80x120";
 
-const transformedUrl = transformImageUrl(origUrl);
-console.log(transformedUrl);
-// Пример данных о фильме
 defineProps({
   data: Object,
 });
@@ -99,9 +94,9 @@ defineProps({
   margin: 0 5px; /* Отступы между деталями */
 }
 @media (max-width: 758px) {
-  .movie-card{
+  .movie-card {
     width: 320px;
-    margin:0;
+    margin: 0;
   }
 }
 </style>

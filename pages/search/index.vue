@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="fs-xxl color-white py-l">Поиск по названию...</h1>
+    <h1 class="fs-xxl color-white pt-l pb-xs">Поиск по названию...</h1>
     <input
       class="styled-input"
       type="text"
@@ -17,6 +17,13 @@
       >
         Чего ждешь?! Давай ищи
       </p>
+      <loader v-show="loaderStatus" class="loader" />
+      <p
+        v-if="filmName !== '' && !store?.films?.docs?.length && !loaderStatus"
+        class="color-gray700 fs-xl text-center w-full pt-xxl"
+      >
+        По запросу {{ filmName }} ничего не найдено =(
+      </p>
     </section>
   </div>
 </template>
@@ -25,26 +32,37 @@
 import { ref, watch, onUnmounted, type Ref } from "vue";
 import { useStore } from "../../store/store";
 import filmCard from "../../components/filmCard.vue";
+
 const store = useStore();
 let filmName: Ref<string> = ref("");
 let debounceTimeout: ReturnType<typeof setTimeout> | null = null;
-  useHead({
-  title:
-    "Поиск фильмов и сериалов | Подборка фильмов Laraptxe.films",
+let loaderStatus: Ref<boolean> = ref(false);
 
+useHead({
+  title: "Поиск фильмов и сериалов | Подборка фильмов Laraptxe.films",
 });
 onUnmounted(() => {
   store.films = [];
 });
 watch(filmName, async (newVal) => {
-  if (newVal == "") return (store.films = []);
-  clearTimeout(debounceTimeout);
-  debounceTimeout = setTimeout(async () => {
-    await store.fetchFilmsByName(newVal);
-  }, 2000);
+  loaderStatus.value = true;
+
+  if (filmName.value !== "") {
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(async () => {
+      await store.fetchFilmsByName(newVal);
+      if (filmName.value == "") store.films = [];
+      loaderStatus.value = false;
+    }, 2000);
+  }
 });
 </script>
-<style>
+<style scoped>
+.foundFilms {
+  position: relative;
+  min-height: 400px;
+}
+
 .styled-input {
   width: 100%;
   padding: 10px 15px;

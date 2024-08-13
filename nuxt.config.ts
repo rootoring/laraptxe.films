@@ -2,6 +2,38 @@
 export default defineNuxtConfig({
   app: {
     head: {
+      meta: [
+        { charset: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        {
+          name: "description",
+          content:
+            "Laraptxe Films - Ваш онлайн кинотеатр с лучшими фильмами и сериалами. Наслаждайтесь бесплатным просмотром в высоком качестве.",
+        },
+        {
+          name: "keywords",
+          content:
+            "онлайн кинотеатр, фильмы, сериалы, смотреть онлайн, бесплатно, в высоком качестве",
+        },
+        { name: "author", content: "Laraptxe Films Team" },
+        { property: "og:title", content: "Laraptxe Films - Онлайн кинотеатр" },
+        {
+          property: "og:description",
+          content:
+            "Laraptxe Films - Ваш онлайн кинотеатр с лучшими фильмами и сериалами. Наслаждайтесь бесплатным просмотром в высоком качестве.",
+        },
+        { property: "og:image", content: "logoSite.jpg" },
+        { property: "og:url", content: "https://laraptxe.ru" },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: "Laraptxe Films - Онлайн кинотеатр" },
+        {
+          name: "twitter:description",
+          content:
+            "Laraptxe Films - Ваш онлайн кинотеатр с лучшими фильмами и сериалами. Наслаждайтесь бесплатным просмотром в высоком качестве.",
+        },
+        { name: "twitter:image", content: "logoSite.jpg" },
+      ],
       link: [{ rel: "icon", type: "image/jpg", href: "logoSite.jpg" }],
     },
   },
