@@ -4,7 +4,9 @@
     <div class="container">
       <section>
         <h2 class="fs-xl color-gray300 mt-l mb-s">Рекомендуем к просмотру</h2>
-        <RecSlider />
+        <RecSlider :data="store?.films?.docs?.slice(10)" />
+        <h2 class="fs-xl color-gray300 mt-l mb-s">Самое лучшее Аниме</h2>
+        <RecSlider :data="store?.anime?.docs" />
       </section>
     </div>
   </div>
@@ -16,8 +18,9 @@ useHead({
   title: "Главная | Подборка фильмов Laraptxe.films",
 });
 const store = useStore();
-onMounted(() => {
-  store.fetchFilms();
+onMounted(async () => {
+  await store.fetchFilms();
+  await store.fetchAnime();
 });
 onUnmounted(() => {
   store.films = [];

@@ -22,7 +22,7 @@
     loop
     class="my-swiper"
   >
-    <swiper-slide v-for="item in store?.films?.docs?.slice(10)" :key="item.id">
+    <swiper-slide v-for="item in data" :key="item.id">
       <SliderCard :data="item" />
     </swiper-slide>
   </swiper>
@@ -30,8 +30,11 @@
 
 <script setup>
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { useStore } from "../store/store";
-const store = useStore();
+
+defineProps({
+  data: Object,
+});
+
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";

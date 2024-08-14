@@ -66,7 +66,7 @@
   </footer>
 </template>
 
-<style>
+<style scoped>
 p {
   text-align: right;
 }

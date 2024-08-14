@@ -31,7 +31,7 @@
             <NuxtLink
               to="/"
               class="font-ubuntu color-gray100 fs-m d-flex items-center"
-              >Конткты</NuxtLink
+              >Контакты</NuxtLink
             >
           </li>
         </ul>

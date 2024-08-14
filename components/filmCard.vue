@@ -22,7 +22,7 @@
 
 <script setup>
 import { reactive, toRefs } from "vue";
-function transformImageUrl(origUrl, size) {
+function transformImageUrl(origUrl) {
   // Используем регулярное выражение для извлечения идентификатора и хэша изображения
   const regex = /\/(\d+)\/([a-f0-9\-]+)\/orig$/;
   const match = origUrl.match(regex);
