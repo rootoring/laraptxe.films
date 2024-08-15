@@ -36,13 +36,27 @@
           </li>
         </ul>
       </nav>
-      <NuxtLink to="/search" class="d-flex items-center hov-text"
+      <div class="d-flex gap-s items-center"><NuxtLink to="/search" class="d-flex items-center hov-text"
         ><img class="search" src="../assets/svg/search.svg" alt=""
       /></NuxtLink>
+    <button  @click="store.menuStatus = true" class="fs-xl color-primary mobil-close"> <i class="fa-solid fa-bars"></i></button></div>
+      
     </div>
   </header>
 </template>
+<script setup>
+import { useStore } from "@/store/store";
+
+const store = useStore();
+</script>
+
 <style lang="scss">
+header {
+  position: sticky;
+  top: 0;
+  z-index: 8888;
+  background-color: #212121;
+}
 .logo {
   font-size: 35px;
   letter-spacing: 2px;
@@ -58,9 +72,15 @@
 .search {
   width: 25px;
 }
+.mobil-close{
+  display: none;
+}
 @media (max-width: 758px) {
   nav {
     display: none !important;
+  }
+  .mobil-close{
+    display: flex;
   }
 }
 </style>

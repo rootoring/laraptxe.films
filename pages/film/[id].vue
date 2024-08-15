@@ -1,58 +1,68 @@
 <template>
-  <div class="container">
-    <div class="film-info mt-l mb-m d-flex items-center">
-      <div class="info-left pr-s">
-        <img
-          :src="
-            store?.film?.poster?.url
-              ? transformImageUrl(store?.film?.poster?.url)
-              : 'logo.jpg'
-          "
-          :alt="'Постер фильма/сериала' + store.film.name"
-          class="film-poster"
-        />
+  <div>
+    <div class="container">
+      <div class="film-info mt-l mb-m d-flex items-center">
+        <div class="info-left pr-s">
+          <img
+            :src="
+              store?.film?.poster?.url
+                ? transformImageUrl(store?.film?.poster?.url)
+                : 'logo.jpg'
+            "
+            :alt="'Постер фильма/сериала' + store.film.name"
+            class="film-poster"
+          />
+        </div>
+        <div class="info-right d-flex flex-column gap-xs">
+          <h1 class="film-title">{{ store.film.name }}</h1>
+          <p class="film-alternative-name">
+            Альтернативное название: {{ store?.film?.alternativeName }}
+          </p>
+          <p class="film-year">Год: {{ store?.film?.year }}</p>
+          <p class="film-rating">Рейтинг: {{ store?.film?.rating?.imdb }}</p>
+          <p class="film-age-rating">
+            Возрастной рейтинг: {{ store?.film?.ageRating }}+
+          </p>
+          <p class="film-slogan">Слоган: "{{ store?.film?.slogan }}"</p>
+          <p class="film-description">{{ store?.film?.description }}</p>
+          <p class="film-genre">
+            Жанр:
+            <span class="genres" v-for="(i, index) of store?.film?.genres">
+              {{ i.name }}
+              <span v-if="store?.film?.genres.length !== index + 1">, </span>
+            </span>
+          </p>
+          <p class="film-countries">
+            Страны:
+            <span
+              class="countries"
+              v-for="(i, index) of store?.film?.countries">{{ i.name}}<span v-if="store?.film?.countries.length !== index + 1">{{ index }}</span>
+            </span>
+          </p>
+        </div>
       </div>
-      <div class="info-right d-flex flex-column gap-xs">
-        <h1 class="film-title">{{ store.film.name }}</h1>
-        <p class="film-alternative-name">
-          Альтернативное название: {{ store?.film?.alternativeName }}
-        </p>
-        <p class="film-year">Год: {{ store?.film?.year }}</p>
-        <p class="film-rating">Рейтинг: {{ store?.film?.rating?.imdb }}</p>
-        <p class="film-age-rating">
-          Возрастной рейтинг: {{ store?.film?.ageRating }}+
-        </p>
-        <p class="film-slogan">Слоган: "{{ store?.film?.slogan }}"</p>
-        <p class="film-description">{{ store?.film?.description }}</p>
-        <p class="film-genre">
-          Жанр:
-          <span class="genres" v-for="(i, index) of store?.film?.genres">
-            {{ i.name }}
-            <span v-if="store?.film?.genres.length !== index + 1">, </span>
-          </span>
-        </p>
-        <p class="film-countries">
-          Страны:
-          <span class="countries" v-for="(i, index) of store?.film?.countries">
-            {{ i.name }}
-            <span v-if="store?.film?.countries.length !== index + 1">, </span>
-          </span>
-        </p>
+
+      <iframe
+        id="cinemaplayer-iframe"
+        frameborder="0"
+        scrolling="no"
+        class="film-iframe"
+        allowfullscreen="allowfullscreen"
+        webkitallowfullscreen="webkitallowfullscreen"
+        mozallowfullscreen="mozallowfullscreen"
+        :src="'https://toembed.com/iframe/' + route.params.id"
+      ></iframe>
+    </div>
+    <div v-if="store?.film?.sequelsAndPrequels" class="bg-gray900 py-m mt-m">
+      <div class="container">
+        <h2 class="fs-xl color-gray300 mb-s">Похожее</h2>
+        <RecSlider :data="store?.film?.sequelsAndPrequels" />
       </div>
     </div>
-
-    <iframe
-      id="cinemaplayer-iframe"
-      frameborder="0"
-      scrolling="no"
-      class="film-iframe"
-      allowfullscreen="allowfullscreen"
-      webkitallowfullscreen="webkitallowfullscreen"
-      mozallowfullscreen="mozallowfullscreen"
-      :src="'https://toembed.com/iframe/' + route.params.id"
-    ></iframe>
-    <h2 class="fs-xl color-gray300 mt-l mb-s">Рекомендуем к просмотру</h2>
-    <RecSlider :data="store?.films?.docs?.slice(10)" />
+    <div class="container">
+      <h2 class="fs-xl color-gray300 mt-l mb-s">Рекомендуем к просмотру</h2>
+      <RecSlider :data="store?.films?.docs?.slice(10)" />
+    </div>
   </div>
 </template>
 
@@ -86,8 +96,10 @@ function transformImageUrl(origUrl) {
   const newUrl = `https://avatars.mds.yandex.net/get-kinopoisk-image/${imageId}/${imageHash}/150x225`;
   return newUrl;
 }
+onUnmounted(() => {
+  store.films = [];
+});
 </script>
-
 <style scoped>
 .film-info {
   display: flex;
@@ -164,6 +176,14 @@ function transformImageUrl(origUrl) {
 
   .film-title {
     font-size: 1.5rem;
+  }
+  .film-iframe {
+    height: 350px !important;
+  }
+}
+@media (max-width: 550px) {
+  .film-iframe {
+    height: 250px !important;
   }
 }
 </style>

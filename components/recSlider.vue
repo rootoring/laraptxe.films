@@ -7,11 +7,11 @@
       },
       '768': {
         slidesPerView: 3,
-        spaceBetween: 20,
+        spaceBetween: 10,
       },
       '1024': {
         slidesPerView: 4,
-        spaceBetween: 10,
+        spaceBetween: 20,
       },
     }"
     :navigation="true"
@@ -57,7 +57,7 @@ const modules = [Pagination, Navigation];
 .my-swiper {
   width: 100%;
   max-width: 100%; /* Ограничиваем максимальную ширину Swiper */
-  height: auto;
+  max-height: 400px;
 }
 .swiper-pagination {
   bottom: 0px !important;
@@ -67,6 +67,5 @@ const modules = [Pagination, Navigation];
   display: flex;
   justify-content: center;
   align-items: center;
-  height: auto;
 }
 </style>

@@ -3,13 +3,10 @@ import { type taskType } from "../types";
 import apiModule from "../api";
 const api = apiModule();
 interface State {
-  tasks: taskType[];
-  task: {
-    taskIndex: null | number;
-    data: {} | taskType;
-  };
-  changeStatus: boolean;
-  cells: { id: number }[];
+  films: taskType[];
+  film: {};
+  anime: [];
+  menuStatus: boolean;
 }
 
 export const useStore = defineStore({
@@ -18,6 +15,7 @@ export const useStore = defineStore({
     films: [],
     film: {},
     anime: [],
+    menuStatus:false
   }),
   // getters: {
 

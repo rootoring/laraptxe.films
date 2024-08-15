@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="'film/' + data.id">
+  <NuxtLink :to="'/film/' + data.id">
     <div
       class="movie-card"
       :style="{

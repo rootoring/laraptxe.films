@@ -44,17 +44,14 @@
       </div>
       <div class="footer-right d-flex flex-column gap-s">
         <div class="footer-contact">
-          <p><i class="fas fa-phone-alt"></i> Телефон: (123) 456-7890</p>
-          <p><i class="fas fa-envelope"></i> Email: info@yourcompany.com</p>
+          <p><i class="fas fa-envelope"></i> Email: laraptxe@gmail.com</p>
         </div>
         <div class="footer-social">
-          <a href="#" aria-label="Facebook">
-            <i class="fab fa-facebook-f"></i>
+          <a href="https://t.me/laraptxe" aria-label="Telegram">
+            <i class="fab fa-telegram"></i>
           </a>
-          <a href="#" aria-label="Twitter">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="#" aria-label="Instagram">
+
+          <a href="https://www.instagram.com/laraptxe" aria-label="Instagram">
             <i class="fab fa-instagram"></i>
           </a>
         </div>
