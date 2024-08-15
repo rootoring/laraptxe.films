@@ -28,15 +28,22 @@
           <p class="film-genre">
             Жанр:
             <span class="genres" v-for="(i, index) of store?.film?.genres">
-              {{ i.name }}
-              <span v-if="store?.film?.genres.length !== index + 1">, </span>
+              {{ i.name
+              }}<span
+                class="mx-xxs"
+                v-if="store?.film?.genres.length !== index + 1"
+              >
+                <i class="far fa-dot-circle fs-xs color-primary"></i>
+              </span>
             </span>
           </p>
           <p class="film-countries">
             Страны:
-            <span
-              class="countries"
-              v-for="(i, index) of store?.film?.countries">{{ i.name}}<span v-if="store?.film?.countries.length !== index + 1">{{ index }}</span>
+            <span class="countries" v-for="(i, index) of store?.film?.countries"
+              >{{ i.name
+              }}<span v-if="store?.film?.countries.length !== index + 1"
+                >,
+              </span>
             </span>
           </p>
         </div>
@@ -53,7 +60,10 @@
         :src="'https://toembed.com/iframe/' + route.params.id"
       ></iframe>
     </div>
-    <div v-if="store?.film?.sequelsAndPrequels" class="bg-gray900 py-m mt-m">
+    <div
+      v-if="store?.film?.sequelsAndPrequels?.length"
+      class="bg-gray900 py-m mt-m"
+    >
       <div class="container">
         <h2 class="fs-xl color-gray300 mb-s">Похожее</h2>
         <RecSlider :data="store?.film?.sequelsAndPrequels" />
@@ -70,16 +80,11 @@
 import { useStore } from "../store/store";
 import { useRoute } from "vue-router";
 const store = useStore();
-let filmName = ref("");
-useHead({
-  title: `${filmName.value} | Смотреть онлайн бесплатно ${filmName.value} в хорошем качестве`,
-});
 
 const route = useRoute();
 onMounted(async () => {
   await store.fetchFilm(route.params.id);
   await store.fetchFilms();
-  filmName.value = await store?.film?.name;
 });
 
 function transformImageUrl(origUrl) {
@@ -96,8 +101,17 @@ function transformImageUrl(origUrl) {
   const newUrl = `https://avatars.mds.yandex.net/get-kinopoisk-image/${imageId}/${imageHash}/150x225`;
   return newUrl;
 }
+watchEffect(() => {
+  useHead({
+    title: `${store?.film?.name || ""} | Смотреть онлайн бесплатно ${
+      store?.film?.name || ""
+    } в хорошем качестве`,
+    meta: [{ name: "description", content: store?.film?.description }],
+  });
+});
 onUnmounted(() => {
   store.films = [];
+  store.film = {};
 });
 </script>
 <style scoped>

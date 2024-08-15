@@ -1,3 +1,5 @@
+import buildQueryParams from "../modules/queryParams";
+
 const keys = [
   "FA4Q5SC-PQV4MAH-MAZNTWJ-8B9F6KB",
   "WD8CXRE-YW6499C-GQHGK89-ADEXTF2",
@@ -71,10 +73,11 @@ export default () => ({
       }
     }
   },
-  async fetchFilmsByFilters(name: string) {
+  async fetchFilmsByFilters(params) {
+    params = buildQueryParams(params);
     try {
       const data = await fetch(
-        `https://api.kinopoisk.dev/v1.4/movie?page=1&limit=100&notNullFields=top250&sortField=top250&sortType=1&type=animated-series&type=anime&rating.imdb=8.5-10`,
+        `https://api.kinopoisk.dev/v1.4/movie?${params}`,
         {
           headers: {
             "X-API-KEY": keys[currentKeyIndex],

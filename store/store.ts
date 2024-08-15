@@ -15,7 +15,7 @@ export const useStore = defineStore({
     films: [],
     film: {},
     anime: [],
-    menuStatus:false
+    menuStatus: false,
   }),
   // getters: {
 
@@ -52,8 +52,8 @@ export const useStore = defineStore({
         console.error("Error parsing saved tasks:", e);
       }
     },
-    async fetchAnime(name: string) {
-      let data = await api.fetchFilmsByFilters(name);
+    async fetchAnime() {
+      let data = await api.fetchFilmsByFilters(animeParams);
       this.anime = await data.json();
 
       // this.films = arr.docs;
@@ -64,3 +64,12 @@ export const useStore = defineStore({
     },
   },
 });
+const animeParams = {
+  page: 1,
+  limit: 100,
+  notNullFields: ["top250"],
+  sortField: ["top250"],
+  sortType: [1],
+  type: ["anime"],
+  "rating.imdb": ["7.5-10"],
+};
