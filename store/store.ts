@@ -82,5 +82,14 @@ export const useStore = defineStore({
         console.error("Error parsing saved tasks:", e);
       }
     },
+    async fetchRandom(params) {
+      let data = await api.fetchRandomFilm(params);
+      return await data.json();
+
+      try {
+      } catch (e) {
+        console.error("Error parsing saved tasks:", e);
+      }
+    },
   },
 });

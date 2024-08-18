@@ -19,11 +19,13 @@
             Альтернативное название: {{ store?.film?.alternativeName }}
           </p>
           <p class="film-year">Год: {{ store?.film?.year }}</p>
-          <p class="film-rating">Рейтинг: {{ store?.film?.rating?.imdb }}</p>
+          <p class="film-rating">Рейтинг: {{ store?.film?.rating?.kp }}</p>
           <p class="film-age-rating">
             Возрастной рейтинг: {{ store?.film?.ageRating }}+
           </p>
-          <p class="film-slogan">Слоган: "{{ store?.film?.slogan }}"</p>
+          <p class="film-slogan" v-if="store?.film?.slogan">
+            Слоган: "{{ store?.film?.slogan }}"
+          </p>
           <p class="film-description">{{ store?.film?.description }}</p>
           <p class="film-genre">
             Жанр:
@@ -83,7 +85,8 @@ const store = useStore();
 
 const route = useRoute();
 onMounted(async () => {
-  await store.fetchFilm(route.params.id);
+  if (!!store?.film) await store.fetchFilm(route.params.id);
+
   await store.fetchFilms();
 });
 

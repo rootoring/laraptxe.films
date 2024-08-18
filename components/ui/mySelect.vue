@@ -8,7 +8,7 @@
         @input="emit('update:modelValue', $event.target.value)"
       >
         <option v-for="option in data" :key="option" :value="option.name">
-          {{ option.name || "Все" }}
+          {{ option.slug || "Все" }}
         </option>
       </select>
       <span class="dropdown-arrow"></span>

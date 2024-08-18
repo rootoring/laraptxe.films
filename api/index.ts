@@ -93,7 +93,31 @@ export default () => ({
     } catch (error) {
       if (error.status === 403) {
         currentKeyIndex = (currentKeyIndex + 1) % keys.length;
-        return this.fetchFilmsByFilters(id);
+        return this.fetchFilmsByFilters(params);
+      } else {
+        throw error;
+      }
+    }
+  },
+  async fetchRandomFilm(params) {
+    params = buildQueryParams(params);
+    try {
+      const data = await fetch(
+        `https://api.kinopoisk.dev/v1.4/movie/random?${params}`,
+        {
+          headers: {
+            "X-API-KEY": keys[currentKeyIndex],
+          },
+        }
+      );
+      if (!data.ok) {
+        throw data;
+      }
+      return data;
+    } catch (error) {
+      if (error.status === 403) {
+        currentKeyIndex = (currentKeyIndex + 1) % keys.length;
+        return this.fetchRandomFilm(params);
       } else {
         throw error;
       }

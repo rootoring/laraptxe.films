@@ -3,15 +3,55 @@
     <mySelect v-model="filmGeneres" :data="filmGenres">Жанр</mySelect>
     <mySelect v-model="countryFilm" :data="country">Страна</mySelect>
     <mySelect v-model="filmTypeChange" :data="filmType">Тип</mySelect>
-    <btn class="btn" @click="find">Поиск</btn>
+    <!-- <div class="form-group">
+      <label class="color-gray400" for="page">Год от:</label>
+      <input
+        class="form-control"
+        type="number"
+        v-model="filmYear.min"
+        min="1920"
+        :max="filmYear.max"
+      />
+    </div>
+    <div class="form-group">
+      <label class="color-gray400" for="page">Год до:</label>
+      <input
+        class="form-control"
+        type="number"
+        v-model="filmYear.max"
+        :min="filmYear.min"
+        max="2024"
+      />
+    </div> -->
+    <div class="form-group">
+      <label class="color-gray400" for="page">Рейтинг:</label>
+      <input
+        class="form-control"
+        type="number"
+        min="0"
+        max="10"
+        v-model="filmRaiting"
+      />
+    </div>
+    <div class="d-flex gap-s">
+      <btn class="btn" @click="find">Поиск</btn>
+      <btn class="btn" @click="random">
+        <i class="fas fa-random"></i> Случайный фильм</btn
+      >
+    </div>
   </div>
   <starWarsLoader v-show="loadFilm" />
 </template>
 <script setup>
 import mySelect from "../components/ui/mySelect.vue";
 import btn from "../components/ui/btn.vue";
+import myInput from "../components/ui/myInput.vue";
 import { useStore } from "../store/store";
+import { useRouter } from "vue-router";
+
+const route = useRouter();
 const store = useStore();
+
 let filmGeneres = ref("");
 watch(filmGeneres, (a) => {
   a === "" ? (params.genres.name = []) : (params.genres.name = [a]);
@@ -24,10 +64,20 @@ let countryFilm = ref("");
 watch(countryFilm, (a) => {
   a === "" ? (params.countries.name = []) : (params.countries.name = [a]);
 });
+let filmRaiting = ref(7);
+watch(filmRaiting, (a) => {
+  a === "" ? (params.rating.kp = ["7-10"]) : (params.rating.kp = [`${a}-10`]);
+});
+
 const find = async () => {
   loadFilm.value = true;
   await store.fetchFilter(params);
   loadFilm.value = false;
+};
+const random = async () => {
+  let a = await store.fetchRandom(params);
+
+  route.push(`/film/${a.id}`);
 };
 let loadFilm = ref(false);
 const params = {
@@ -41,7 +91,7 @@ const params = {
   genres: {
     name: [],
   },
-  year: ["2000-2024"],
+  year: ["2024"],
   rating: {
     kp: ["7-10"],
   },
@@ -55,88 +105,85 @@ const filmGenres = [
     name: "",
     slug: "",
   },
-  {
-    name: "аниме",
-    slug: "anime",
-  },
+
   {
     name: "биография",
-    slug: "biografiya",
+    slug: "На реальных событиях",
   },
   {
     name: "боевик",
-    slug: "boevik",
+    slug: "Боевик",
   },
   {
     name: "вестерн",
-    slug: "vestern",
+    slug: "Вестерн",
   },
   {
     name: "военный",
-    slug: "voennyy",
+    slug: "Военный",
   },
   {
     name: "детектив",
-    slug: "detektiv",
+    slug: "Детектив",
   },
   {
     name: "детский",
-    slug: "detskiy",
+    slug: "Детский",
   },
 
   {
     name: "документальный",
-    slug: "dokumentalnyy",
+    slug: "Документальный",
   },
   {
     name: "драма",
-    slug: "drama",
+    slug: "Драма",
   },
 
   {
     name: "комедия",
-    slug: "komediya",
+    slug: "Комедия",
   },
 
   {
     name: "короткометражка",
-    slug: "korotkometrazhka",
+    slug: "Короткометражка",
   },
   {
     name: "криминал",
-    slug: "kriminal",
+    slug: "Криминал",
   },
   {
     name: "мелодрама",
-    slug: "melodrama",
+    slug: "Мелодрама",
   },
 
   {
     name: "приключения",
-    slug: "priklyucheniya",
+    slug: "Приключения",
   },
 
   {
     name: "спорт",
-    slug: "sport",
+    slug: "Спорт",
   },
 
   {
     name: "триллер",
-    slug: "triller",
+    slug: "Триллер",
   },
   {
     name: "ужасы",
-    slug: "uzhasy",
+    slug: "Ужасы",
   },
   {
     name: "фантастика",
-    slug: "fantastika",
+    slug: "Фантастика",
   },
 
   {
     name: "фэнтези",
-    slug: "fentezi",
+    slug: "Фэнтези",
   },
 ];
 const country = [
@@ -145,28 +192,32 @@ const country = [
     slug: "",
   },
   {
+    name: "Турция",
+    slug: "Турция",
+  },
+  {
     name: "Индия",
-    slug: "Indiya",
+    slug: "Индия",
   },
   {
     name: "Россия",
-    slug: "Rossiya",
+    slug: "Россия",
   },
   {
     name: "США",
-    slug: "SShA",
+    slug: "США",
   },
   {
     name: "Франция",
-    slug: "Frantsiya",
+    slug: "Франция",
   },
   {
     name: "Южная Корея",
-    slug: "Koreya-Yuzhnaya",
+    slug: "Южная Корея",
   },
   {
     name: "Япония",
-    slug: "Yaponiya",
+    slug: "Япония",
   },
 ];
 const filmType = [
@@ -176,23 +227,23 @@ const filmType = [
   },
   {
     name: "movie",
-    slug: "",
+    slug: "Кино",
   },
   {
     name: "tv-series",
-    slug: "",
+    slug: "Сериал",
   },
   {
     name: "anime",
-    slug: "",
+    slug: "Аниме",
   },
   {
     name: "cartoon",
-    slug: "",
+    slug: "Мультфильм",
   },
   {
     name: "animated-series",
-    slug: "",
+    slug: "Анимационный сериал",
   },
 ];
 </script>
@@ -200,7 +251,13 @@ const filmType = [
 .btn {
   align-self: flex-end;
 }
-@media (max-width: 768px) {
+@media (max-width: 887px) {
+  .form-group {
+    width: 100% !important;
+  }
+  .form-control {
+    width: 100% !important;
+  }
   .filter-cont {
     flex-direction: column;
     align-items: center;
@@ -209,5 +266,25 @@ const filmType = [
   .btn {
     align-self: center;
   }
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+}
+
+.form-control {
+  background-color: #212121;
+  border: 1px solid #555 !important;
+  border-radius: 5px;
+  color: white;
+  padding: 0.5rem;
+  font-size: 16px;
+  border-radius: 5px;
+  padding: 10px;
+  height: 39px;
+  width: auto;
 }
 </style>

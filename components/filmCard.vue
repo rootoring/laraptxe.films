@@ -12,8 +12,8 @@
         <h2 class="title">{{ data?.name }}</h2>
         <div class="details">
           <span class="year">{{ data?.year }}</span>
-          <!-- <span class="country">{{ data?.countries[0]?.name }}</span> -->
-          <span class="genre">{{ data?.rating?.imdb }}</span>
+          <span class="country">{{ data?.countries[0]?.name }}</span>
+          <span class="genre">{{ data?.rating?.kp }}</span>
         </div>
       </div>
     </div></NuxtLink
@@ -22,6 +22,7 @@
 
 <script setup>
 import { reactive, toRefs } from "vue";
+
 function transformImageUrl(origUrl) {
   // Используем регулярное выражение для извлечения идентификатора и хэша изображения
   const regex = /\/(\d+)\/([a-f0-9\-]+)\/orig$/;
@@ -109,7 +110,6 @@ defineProps({
 }
 @media (max-width: 758px) {
   .movie-card {
-    width: 320px;
     margin: 0;
   }
 }
