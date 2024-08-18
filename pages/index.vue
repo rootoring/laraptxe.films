@@ -3,6 +3,14 @@
     <BigSlider />
     <div class="container">
       <section>
+        <myFilter />
+
+        <div
+          v-if="store?.filterFilm?.docs"
+          class="d-flex flex-wrap-center gap-s mt-l"
+        >
+          <FilmCard v-for="film of store?.filterFilm?.docs" :data="film" />
+        </div>
         <h2 class="fs-xl color-gray300 mt-l mb-s">Рекомендуем к просмотру</h2>
         <RecSlider :data="store?.films?.docs?.slice(10)" />
         <h2 class="fs-xl color-gray300 mt-l mb-s">Самое лучшее Аниме</h2>
@@ -14,9 +22,11 @@
 <script setup lang="ts">
 import { useStore } from "../store/store";
 import { type taskType } from "../types";
+
 useHead({
   title: "Главная | Подборка фильмов Laraptxe.films",
 });
+
 const store = useStore();
 onMounted(async () => {
   await store.fetchFilms();

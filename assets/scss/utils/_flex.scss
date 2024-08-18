@@ -37,7 +37,11 @@
 .flex-wrap {
   flex-wrap: wrap;
 }
-
+.flex-wrap-center {
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
 .flex {
   flex: 1;
 }

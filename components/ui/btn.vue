@@ -1,16 +1,17 @@
 <template>
-  <button>Button</button>
+  <button><slot /></button>
 </template>
 <style scope>
 /* From Uiverse.io by mrhyddenn */
 button {
+  height: 40px;
   position: relative;
-  padding: 10px 20px;
+  padding: 5px 20px;
   border-radius: 7px;
   border: 1px solid rgb(145, 47, 202);
   font-size: 14px;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 100;
   letter-spacing: 2px;
   background: transparent;
   color: #fff;

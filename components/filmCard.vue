@@ -40,7 +40,20 @@ function transformImageUrl(origUrl) {
 }
 
 defineProps({
-  data: Object,
+  data: {
+    type: Object,
+    default: {
+      id: 0,
+      name: "",
+      year: "2000",
+      poster: {
+        url: "",
+      },
+      rating: {
+        imdb: "-",
+      },
+    },
+  },
 });
 </script>
 

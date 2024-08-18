@@ -36,11 +36,17 @@
           </li>
         </ul>
       </nav>
-      <div class="d-flex gap-s items-center"><NuxtLink to="/search" class="d-flex items-center hov-text"
-        ><img class="search" src="../assets/svg/search.svg" alt=""
-      /></NuxtLink>
-    <button  @click="store.menuStatus = true" class="fs-xl color-primary mobil-close"> <i class="fa-solid fa-bars"></i></button></div>
-      
+      <div class="d-flex gap-s items-center">
+        <NuxtLink to="/search" class="d-flex items-center hov-text"
+          ><img class="search" src="../assets/svg/search.svg" alt=""
+        /></NuxtLink>
+        <button
+          @click="store.menuStatus = true"
+          class="fs-xl color-primary mobil-close"
+        >
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
     </div>
   </header>
 </template>
@@ -72,15 +78,16 @@ header {
 .search {
   width: 25px;
 }
-.mobil-close{
+.mobil-close {
   display: none;
 }
 @media (max-width: 758px) {
   nav {
     display: none !important;
   }
-  .mobil-close{
+  .mobil-close {
     display: flex;
+    border-color: transparent;
   }
 }
 </style>
