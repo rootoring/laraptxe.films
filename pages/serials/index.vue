@@ -45,7 +45,7 @@ const params = {
   limit: 20,
   selectFields: [],
   notNullFields: ["name", "year", "rating.kp"],
-  sortField: ["top10"],
+  sortField: ["rating.kp"],
   sortType: ["-1"],
   type: [],
   genres: {
@@ -56,10 +56,10 @@ const params = {
     kp: ["7-10"],
   },
   countries: {
-    name: ["Турция", "США"],
+    name: [],
   },
-
-  isSeries: [true],
+  type: ["tv-series"],
+  lists: ["100_greatest_TVseries"],
 };
 </script>
 
