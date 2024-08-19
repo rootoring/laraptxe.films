@@ -23,7 +23,7 @@
     class="my-swiper"
   >
     <swiper-slide v-for="item in data" :key="item.id">
-      <SliderCard :data="item" />
+      <filmCard :data="item" />
     </swiper-slide>
   </swiper>
 </template>

@@ -9,7 +9,7 @@
     />
     <section class="foundFilms d-flex flex-wrap justify-center gap-m mt-l">
       <div v-for="film of store.films.docs">
-        <NuxtLink :to="'film/' + film.id"><filmCard :data="film" /></NuxtLink>
+        <filmCard :data="film" />
       </div>
       <p
         v-if="filmName == ''"

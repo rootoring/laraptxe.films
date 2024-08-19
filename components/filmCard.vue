@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="'film/' + data.id">
+  <NuxtLink :to="'/film/' + data.id">
     <div
       class="movie-card"
       :style="{
@@ -12,16 +12,26 @@
         <h2 class="title">{{ data?.name }}</h2>
         <div class="details">
           <span class="year">{{ data?.year }}</span>
-          <span class="country">{{ data?.countries[0]?.name }}</span>
-          <span class="genre">{{ data?.rating?.kp }}</span>
+          <span
+            v-if="data?.countries?.length && data?.countries[0]?.name"
+            class="country"
+          >
+            {{ data?.countries[0]?.name }}
+          </span>
+          <span class="genre">{{ data?.rating?.kp?.toFixed(1) }}</span>
         </div>
       </div>
-    </div></NuxtLink
-  >
+    </div>
+  </NuxtLink>
 </template>
 
 <script setup>
 import { reactive, toRefs } from "vue";
+
+const generChange = (a) => {
+  console.log(a.substring(0, 3));
+  return a.substring(0, 3);
+};
 
 function transformImageUrl(origUrl) {
   // Используем регулярное выражение для извлечения идентификатора и хэша изображения
@@ -102,7 +112,8 @@ defineProps({
 .details {
   display: flex; /* Flexbox для деталей */
   justify-content: space-between; /* Распределение по краям */
-  font-size: 13px; /* Размер шрифта деталей */
+  font-size: 12px; /* Размер шрифта деталей */
+  font-weight: 100;
 }
 
 .details span {

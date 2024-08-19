@@ -91,7 +91,7 @@ const params = {
   genres: {
     name: [],
   },
-  year: ["2024"],
+  year: [],
   rating: {
     kp: ["7-10"],
   },
@@ -99,6 +99,7 @@ const params = {
     name: [],
   },
   typeNumber: [],
+  lists: ["top250"],
 };
 const filmGenres = [
   {

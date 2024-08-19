@@ -84,48 +84,48 @@
 }
 
 .lightsaber.ls-green:before {
-  -webkit-animation: showlightgreen 2s ease-in-out infinite 1s;
-  animation: showlightgreen 2s ease-in-out infinite 1s;
+  -webkit-animation: showlightgreen 2s ease-in-out infinite;
+  animation: showlightgreen 2s ease-in-out infinite;
 }
 
 .lightsaber.ls-red:before {
-  -webkit-animation: showlightred 2s ease-in-out infinite 1s;
-  animation: showlightred 2s ease-in-out infinite 1s;
+  -webkit-animation: showlightred 2s ease-in-out infinite;
+  animation: showlightred 2s ease-in-out infinite;
 }
 
 .lightsaber.ls-left {
-  -webkit-animation: fightleft 2s ease-in-out infinite 1s;
-  animation: fightleft 2s ease-in-out infinite 1s;
+  -webkit-animation: fightleft 2s ease-in-out infinite;
+  animation: fightleft 2s ease-in-out infinite;
 }
 
 .lightsaber.ls-right {
-  -webkit-animation: fightright 2s ease-in-out infinite 1s;
-  animation: fightright 2s ease-in-out infinite 1s;
+  -webkit-animation: fightright 2s ease-in-out infinite;
+  animation: fightright 2s ease-in-out infinite;
 }
 
 .ls-particles.ls-part-1 {
-  -webkit-animation: particles1 2s ease-out infinite 1s;
-  animation: particles1 2s ease-out infinite 1s;
+  -webkit-animation: particles1 2s ease-out infinite;
+  animation: particles1 2s ease-out infinite;
 }
 
 .ls-particles.ls-part-2 {
-  -webkit-animation: particles2 2s ease-out infinite 1s;
-  animation: particles2 2s ease-out infinite 1s;
+  -webkit-animation: particles2 2s ease-out infinite;
+  animation: particles2 2s ease-out infinite;
 }
 
 .ls-particles.ls-part-3 {
-  -webkit-animation: particles3 2s ease-out infinite 1s;
-  animation: particles3 2s ease-out infinite 1s;
+  -webkit-animation: particles3 2s ease-out infinite;
+  animation: particles3 2s ease-out infinite;
 }
 
 .ls-particles.ls-part-4 {
-  -webkit-animation: particles4 2s ease-out infinite 1s;
-  animation: particles4 2s ease-out infinite 1s;
+  -webkit-animation: particles4 2s ease-out infinite;
+  animation: particles4 2s ease-out infinite;
 }
 
 .ls-particles.ls-part-5 {
-  -webkit-animation: particles5 2s ease-out infinite 1s;
-  animation: particles5 2s ease-out infinite 1s;
+  -webkit-animation: particles5 2s ease-out infinite;
+  animation: particles5 2s ease-out infinite;
 }
 
 @-webkit-keyframes showlightgreen {

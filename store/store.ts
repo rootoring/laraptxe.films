@@ -91,5 +91,15 @@ export const useStore = defineStore({
         console.error("Error parsing saved tasks:", e);
       }
     },
+    async fetchTopFilms(params) {
+      let data = await api.fetchFilmsByFilters(params);
+      let { docs } = await data.json();
+
+      this.films.push(...docs);
+      try {
+      } catch (e) {
+        console.error("Error parsing saved tasks:", e);
+      }
+    },
   },
 });

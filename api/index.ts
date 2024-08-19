@@ -12,7 +12,7 @@ export default () => ({
   async fetchAllFilms() {
     try {
       const data = await fetch(
-        "https://api.kinopoisk.dev/v1.4/movie/search?page=1&limit=30&query=",
+        "https://api.kinopoisk.dev/v1.4/movie/search?page=2&limit=30&query=",
         {
           headers: {
             "X-API-KEY": keys[currentKeyIndex],
@@ -76,7 +76,7 @@ export default () => ({
     }
   },
   async fetchFilmsByFilters(params) {
-    params = buildQueryParams(params);
+    if (typeof params !== "string") params = buildQueryParams(params);
     try {
       const data = await fetch(
         `https://api.kinopoisk.dev/v1.4/movie?${params}`,
@@ -100,7 +100,7 @@ export default () => ({
     }
   },
   async fetchRandomFilm(params) {
-    params = buildQueryParams(params);
+    if (typeof params !== "string") params = buildQueryParams(params);
     try {
       const data = await fetch(
         `https://api.kinopoisk.dev/v1.4/movie/random?${params}`,
