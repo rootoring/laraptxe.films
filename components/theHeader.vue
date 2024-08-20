@@ -15,14 +15,14 @@
           </li>
           <li class="d-flex items-center nav-list hov-text">
             <NuxtLink
-              to="/"
+              to="/serials"
               class="font-ubuntu color-gray100 fs-m d-flex items-center"
               >Сериалы</NuxtLink
             >
           </li>
           <li class="d-flex items-center nav-list hov-text">
             <NuxtLink
-              to="/"
+              to="/anime"
               class="font-ubuntu color-gray100 fs-m d-flex items-center"
               >Аниме</NuxtLink
             >

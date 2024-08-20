@@ -99,7 +99,7 @@ const params = {
     name: [],
   },
   typeNumber: [],
-  lists: ["top250"],
+  lists: [],
 };
 const filmGenres = [
   {

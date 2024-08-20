@@ -1,7 +1,7 @@
 <template>
   <section class="movie-lists">
     <div class="container d-flex flex-column">
-      <h1 class="color-gray500 fs-l mt-l">Самое лучшее КИНО</h1>
+      <h1 class="color-gray500 fs-l mt-l">Самые лучшие СЕРИАЛЫ</h1>
       <TransitionGroup
         name="list"
         tag="div"
