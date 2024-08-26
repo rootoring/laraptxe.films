@@ -18,6 +18,15 @@ a {
 .hov-text {
   position: relative;
   padding-bottom: 3px;
+  &::before {
+    width: 0px !important;
+    bottom: -2px;
+    position: absolute;
+    content: " ";
+    height: 2px;
+    transition: all 0.3s ease-out;
+    background-color: rgb(145, 47, 202);
+  }
   &:hover {
     &::before {
       width: 100% !important;

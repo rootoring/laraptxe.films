@@ -40,6 +40,9 @@
         <NuxtLink to="/search" class="d-flex items-center hov-text"
           ><img class="search" src="../assets/svg/search.svg" alt=""
         /></NuxtLink>
+        <div @click="logout" class="fs-xl color-gray500 hov-text">
+          <i class="fas fa-sign-out-alt"></i>
+        </div>
         <button
           @click="store.menuStatus = true"
           class="fs-xl color-primary mobil-close"
@@ -52,11 +55,24 @@
 </template>
 <script setup>
 import { useStore } from "@/store/store";
+import { useRouter } from "vue-router";
+const route = useRouter();
+const user = useState("user");
 
 const store = useStore();
+const logout = () => {
+  localStorage.removeItem("user");
+
+  user.value = false;
+  route.push("/auth");
+};
 </script>
 
 <style lang="scss">
+.fa-sign-out-alt {
+  font-weight: 600;
+  cursor: pointer;
+}
 header {
   position: sticky;
   top: 0;

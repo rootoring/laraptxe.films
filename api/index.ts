@@ -1,5 +1,5 @@
 import buildQueryParams from "../modules/queryParams";
-
+import { type filmType } from "../types/index";
 const keys = [
   "FA4Q5SC-PQV4MAH-MAZNTWJ-8B9F6KB",
   "WD8CXRE-YW6499C-GQHGK89-ADEXTF2",
@@ -99,7 +99,7 @@ export default () => ({
       }
     }
   },
-  async fetchRandomFilm(params) {
+  async fetchRandomFilm(params): Promise<filmType> {
     if (typeof params !== "string") params = buildQueryParams(params);
     try {
       const data = await fetch(
