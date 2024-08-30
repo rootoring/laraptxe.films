@@ -4,8 +4,9 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
   // Исключаем страницы, которые не требуют аутентификации
   const publicPages = ["/auth"];
-
-  if (!user && !publicPages.includes(to.path)) {
-    return navigateTo("/auth");
+  if (process.client) {
+    if (!localStorage.getItem("user") && !publicPages.includes(to.path)) {
+      return navigateTo("/auth");
+    }
   }
 });

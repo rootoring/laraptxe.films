@@ -28,11 +28,6 @@
 <script setup>
 import { reactive, toRefs } from "vue";
 
-const generChange = (a) => {
-  console.log(a.substring(0, 3));
-  return a.substring(0, 3);
-};
-
 function transformImageUrl(origUrl) {
   // Используем регулярное выражение для извлечения идентификатора и хэша изображения
   const regex = /\/(\d+)\/([a-f0-9\-]+)\/orig$/;

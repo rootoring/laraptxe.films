@@ -5,7 +5,9 @@ const api = apiModule();
 interface State {
   films: taskType[];
   film: {};
+  filmImg: [];
   anime: [];
+  filterFilm: [];
   menuStatus: boolean;
 }
 
@@ -14,6 +16,7 @@ export const useStore = defineStore({
   state: (): State => ({
     films: [],
     film: {},
+    filmImg: [],
     anime: [],
     filterFilm: [],
     menuStatus: false,
@@ -36,6 +39,16 @@ export const useStore = defineStore({
     async fetchFilm(id: number) {
       let data = await api.fetchFilm(id);
       this.film = await data.json();
+
+      // this.films = arr.docs;
+      try {
+      } catch (e) {
+        console.error("Error parsing saved tasks:", e);
+      }
+    },
+    async fetchImg(id: number) {
+      let data = await api.fetchImg(id);
+      this.filmImg = await data.json();
 
       // this.films = arr.docs;
       try {

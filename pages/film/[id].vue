@@ -19,7 +19,9 @@
             Альтернативное название: {{ store?.film?.alternativeName }}
           </p>
           <p class="film-year">Год: {{ store?.film?.year }}</p>
-          <p class="film-rating">Рейтинг: {{ store?.film?.rating?.kp }}</p>
+          <p class="film-rating">
+            Рейтинг: {{ store?.film?.rating?.kp.toFixed(1) }}
+          </p>
           <p class="film-age-rating">
             Возрастной рейтинг: {{ store?.film?.ageRating }}+
           </p>
@@ -62,13 +64,17 @@
         :src="'https://toembed.com/iframe/' + route.params.id"
       ></iframe>
     </div>
-    <div
-      v-if="store?.film?.sequelsAndPrequels?.length"
-      class="bg-gray900 py-m mt-m"
-    >
+    <div v-if="store?.filmImg?.docs?.length" class="mt-l">
+      <div class="container">
+        <h2 class="fs-xl color-gray300 mb-s">Фото</h2>
+      </div>
+
+      <ImgSlider :data="store?.filmImg?.docs" />
+    </div>
+    <div v-if="store?.film?.similarMovies?.length" class="bg-gray900 py-m mt-m">
       <div class="container">
         <h2 class="fs-xl color-gray300 mb-s">Похожее</h2>
-        <RecSlider :data="store?.film?.sequelsAndPrequels" />
+        <RecSlider :data="store?.film?.similarMovies" />
       </div>
     </div>
     <div class="container">
@@ -85,9 +91,9 @@ const store = useStore();
 
 const route = useRoute();
 onMounted(async () => {
-  if (!!store?.film) await store.fetchFilm(route.params.id);
-
-  await store.fetchFilms();
+  await store.fetchFilm(route.params.id);
+  await store.fetchImg(route.params.id);
+  if (!store.films.docs) await store.fetchFilms();
 });
 
 function transformImageUrl(origUrl) {
@@ -115,6 +121,7 @@ watchEffect(() => {
 onUnmounted(() => {
   store.films = [];
   store.film = {};
+  store.filmImg = {};
 });
 </script>
 <style scoped>

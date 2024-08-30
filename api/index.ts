@@ -11,8 +11,11 @@ let currentKeyIndex = 0;
 export default () => ({
   async fetchAllFilms() {
     try {
+      let randomPage = () => {
+        return Math.floor(Math.random() * 34) + 1;
+      };
       const data = await fetch(
-        "https://api.kinopoisk.dev/v1.4/movie/search?page=2&limit=30&query=",
+        `https://api.kinopoisk.dev/v1.4/movie/search?page=${randomPage()}&limit=30&query=`,
         {
           headers: {
             "X-API-KEY": keys[currentKeyIndex],
@@ -47,6 +50,29 @@ export default () => ({
       if (error.status === 403 || error.status === 404) {
         currentKeyIndex = (currentKeyIndex + 1) % keys.length;
         return this.fetchFilm(id);
+      } else {
+        throw error;
+      }
+    }
+  },
+  async fetchImg(id: number) {
+    try {
+      const data = await fetch(
+        `https://api.kinopoisk.dev/v1.4/image?page=1&limit=30&movieId=${id}&type=frame&type=screenshot`,
+        {
+          headers: {
+            "X-API-KEY": keys[currentKeyIndex],
+          },
+        }
+      );
+      if (!data.ok) {
+        throw data;
+      }
+      return data;
+    } catch (error) {
+      if (error.status === 403) {
+        currentKeyIndex = (currentKeyIndex + 1) % keys.length;
+        return this.fetchImg(id);
       } else {
         throw error;
       }
