@@ -40,12 +40,12 @@
       >
     </div>
   </div>
+  <div class="loader-random" v-if="randomLoader"><loader /></div>
   <starWarsLoader v-show="loadFilm" />
 </template>
 <script setup>
 import mySelect from "../components/ui/mySelect.vue";
 import btn from "../components/ui/btn.vue";
-import myInput from "../components/ui/myInput.vue";
 import { useStore } from "../store/store";
 import { useRouter } from "vue-router";
 
@@ -75,11 +75,13 @@ const find = async () => {
   loadFilm.value = false;
 };
 const random = async () => {
+  randomLoader.value = true;
   let a = await store.fetchRandom(params);
-
+  randomLoader.value = false;
   route.push(`/film/${a.id}`);
 };
 let loadFilm = ref(false);
+let randomLoader = ref(false);
 const params = {
   page: 1,
   limit: 100,
@@ -249,10 +251,22 @@ const filmType = [
 ];
 </script>
 <style>
+.loader-random {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  width: 100%;
+  height: 100vh;
+  background-color: #212121fa;
+  top: 0;
+  left: 0;
+}
 .btn {
   align-self: flex-end;
 }
-@media (max-width: 887px) {
+@media (max-width: 1050px) {
   .form-group {
     width: 100% !important;
   }

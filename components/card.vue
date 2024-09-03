@@ -16,19 +16,32 @@
         <NuxtLink :to="'film/' + data.id" class="title hov-text">{{
           data.name
         }}</NuxtLink>
-        <p class="rating" v-if="!!data.rating.imdb">
-          Рейтинг: {{ !!data.rating.imdb ? data.rating.imdb : "-" }}
-        </p>
-        <p class="description" v-if="!!data.shortDescription">
-          {{ data.shortDescription }}
-        </p>
-        <p class="genre" v-if="!!data.genres">
-          Жанр:
-          <span class="genres pl-xxs" v-for="(i, index) of data.genres"
-            >{{ i.name }}<span v-if="data.genres.length !== index + 1">, </span>
-          </span>
-        </p>
-        <p class="year" v-if="!!data.year">Год выпуска: {{ data.year }}</p>
+        <div class="desc-cont">
+          <p class="rating" v-if="!!data.rating.imdb">
+            Рейтинг: {{ !!data.rating.imdb ? data.rating.imdb : "-" }}
+          </p>
+          <p class="description" v-if="!!data.shortDescription">
+            {{ data.shortDescription }}
+          </p>
+          <p class="genre" v-if="!!data.genres">
+            Жанр:
+            <span class="genres pl-xxs" v-for="(i, index) of data.genres"
+              >{{ i.name
+              }}<span v-if="data.genres.length !== index + 1">, </span>
+            </span>
+          </p>
+          <p class="year" v-if="!!data.year">Год выпуска: {{ data.year }}</p>
+        </div>
+        <div class="mob-cont d-flex justify-around w-full">
+          <p class="rating" v-if="!!data.rating.kp">
+            {{ !!data.rating.kp ? data.rating.kp.toFixed(1) : "-" }}
+          </p>
+
+          <p class="genre" v-if="!!data.genres">
+            <span class="genres">{{ data?.genres[0]?.name }} </span>
+          </p>
+          <p class="year" v-if="!!data.year">{{ data.year }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -69,6 +82,10 @@ defineProps({
   height: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   font-family: "Lato", sans-serif;
+
+  .mob-cont {
+    display: none;
+  }
 }
 
 .title {
@@ -119,6 +136,9 @@ defineProps({
     left: 0;
     padding: 14px;
     border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     .title {
       font-size: 1.2em;
     }
@@ -129,6 +149,12 @@ defineProps({
       margin: 7px 0;
       height: 25px;
       font-size: 0.7em;
+    }
+    .desc-cont {
+      display: none;
+    }
+    .mob-cont {
+      display: flex;
     }
   }
 }

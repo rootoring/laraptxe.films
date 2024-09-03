@@ -1,1 +1,10 @@
-<template></template>
+<template>
+  <div>
+    <iframe
+      src="https://www.laraptxe.ru"
+      width="1900px"
+      height="1000px"
+      frameborder="0"
+    ></iframe>
+  </div>
+</template>

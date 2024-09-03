@@ -58,6 +58,11 @@ watch(filmName, async (newVal) => {
 });
 </script>
 <style scoped>
+.loader {
+  height: 100%;
+  width: 100%;
+  background-color: #212121;
+}
 .foundFilms {
   position: relative;
   min-height: 400px;

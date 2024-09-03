@@ -74,7 +74,7 @@ option::first-letter {
   border-top: 5px solid #fff;
   transform: translateY(-50%);
 }
-@media (max-width: 768px) {
+@media (max-width: 1050px) {
   .drop-cont {
     width: 100%;
   }

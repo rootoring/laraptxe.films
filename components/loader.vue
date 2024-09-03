@@ -16,9 +16,7 @@
   display: flex;
 
   justify-content: center;
-  height: 100%;
-  width: 100%;
-  background-color: #212121;
+
   z-index: 222;
 }
 /* From Uiverse.io by shadowfax29 */

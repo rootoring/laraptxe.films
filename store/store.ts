@@ -38,7 +38,7 @@ export const useStore = defineStore({
     },
     async fetchFilm(id: number) {
       let data = await api.fetchFilm(id);
-      this.film = await data.json();
+      this.film = data;
 
       // this.films = arr.docs;
       try {

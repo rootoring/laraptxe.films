@@ -37,24 +37,61 @@ export default () => ({
   },
   async fetchFilm(id: number) {
     try {
-      const data = await fetch(`https://api.kinopoisk.dev/v1.4/movie/${id}`, {
-        headers: {
-          "X-API-KEY": keys[currentKeyIndex],
-        },
+      // Используем useAsyncData для асинхронного запроса
+      const { data, error } = await useAsyncData("page", async () => {
+        let attempt = 0; // Переменная для отслеживания попыток
+        let response;
+        let jsonData;
+
+        while (attempt < keys.length) {
+          // Пока есть ключи для проверки
+          try {
+            // Выполняем запрос к API
+            response = await fetch(
+              `https://api.kinopoisk.dev/v1.4/movie/${id}`,
+              {
+                headers: {
+                  "X-API-KEY": keys[attempt],
+                },
+              }
+            );
+
+            if (!response.ok) {
+              // Если статус не 200, выбрасываем ошибку
+              throw new Error(`Ошибка HTTP: ${response.status}`);
+            }
+
+            jsonData = await response.json();
+            return jsonData; // Возвращаем валидный результат, если нет ошибок
+          } catch (err) {
+            console.error(`Ошибка при использовании ключа: ${err.message}`);
+
+            if (response && response.status === 403) {
+              // Если получили статус 403, меняем ключ
+              // Переход к следующему ключу
+              attempt++; // Увеличиваем количество попыток
+            } else {
+              // Если другая ошибка, пробрасываем её дальше
+              throw err;
+            }
+          }
+        }
+
+        throw new Error("Все ключи API невалидны или истекли"); // Если все ключи не сработали
       });
-      if (!data.ok) {
-        throw data;
+
+      if (error.value) {
+        console.error("Ошибка при запросе фильма:", error.value);
+        throw error.value;
       }
-      return data;
-    } catch (error) {
-      if (error.status === 403 || error.status === 404) {
-        currentKeyIndex = (currentKeyIndex + 1) % keys.length;
-        return this.fetchFilm(id);
-      } else {
-        throw error;
-      }
+
+      return data; // Возвращаем данные
+    } catch (err) {
+      console.error("Ошибка при запросе фильма:", err);
+      throw err;
     }
   },
+
   async fetchImg(id: number) {
     try {
       const data = await fetch(

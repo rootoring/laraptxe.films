@@ -5,7 +5,7 @@
         <div class="info-left pr-s">
           <img
             :src="
-              store?.film?.poster?.url
+              !!store?.film?.poster?.url
                 ? transformImageUrl(store?.film?.poster?.url)
                 : 'logo.jpg'
             "
@@ -91,11 +91,13 @@ const store = useStore();
 
 const route = useRoute();
 onMounted(async () => {
-  await store.fetchFilm(route.params.id);
   await store.fetchImg(route.params.id);
   if (!store.films.docs) await store.fetchFilms();
 });
-
+let aa = async () => {
+  await store.fetchFilm(route.params.id);
+};
+aa();
 function transformImageUrl(origUrl) {
   const regex = /\/(\d+)\/([a-f0-9\-]+)\/orig$/;
   const match = origUrl.match(regex);
@@ -118,6 +120,8 @@ watchEffect(() => {
     meta: [{ name: "description", content: store?.film?.description }],
   });
 });
+if (process.server) {
+}
 onUnmounted(() => {
   store.films = [];
   store.film = {};
