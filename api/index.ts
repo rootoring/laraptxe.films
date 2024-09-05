@@ -27,9 +27,13 @@ export default () => ({
       }
       return data;
     } catch (error) {
-      if (error.status === 403 || error.status === 404) {
-        currentKeyIndex = (currentKeyIndex + 1) % keys.length;
-        return this.fetchAllFilms(); // Рекурсивный вызов с новым ключом
+      if (error.status === 403) {
+        currentKeyIndex++;
+        if (currentKeyIndex >= keys.length) {
+          currentKeyIndex = 0;
+          return {};
+        }
+        return this.fetchAllFilms();
       } else {
         throw error;
       }
@@ -108,7 +112,11 @@ export default () => ({
       return data;
     } catch (error) {
       if (error.status === 403) {
-        currentKeyIndex = (currentKeyIndex + 1) % keys.length;
+        currentKeyIndex++;
+        if (currentKeyIndex >= keys.length) {
+          currentKeyIndex = 0;
+          return {};
+        }
         return this.fetchImg(id);
       } else {
         throw error;
@@ -131,8 +139,9 @@ export default () => ({
       return data;
     } catch (error) {
       if (error.status === 403) {
-        currentKeyIndex = (currentKeyIndex + 1) % keys.length;
-        return this.fetchFilmsByName(id);
+        currentKeyIndex++;
+        if (currentKeyIndex >= keys.length) return {};
+        return this.fetchFilmsByName(name);
       } else {
         throw error;
       }
@@ -155,14 +164,18 @@ export default () => ({
       return data;
     } catch (error) {
       if (error.status === 403) {
-        currentKeyIndex = (currentKeyIndex + 1) % keys.length;
+        currentKeyIndex++;
+        if (currentKeyIndex >= keys.length) {
+          currentKeyIndex = 0;
+          return {};
+        }
         return this.fetchFilmsByFilters(params);
       } else {
         throw error;
       }
     }
   },
-  async fetchRandomFilm(params): Promise<filmType> {
+  async fetchRandomFilm(params: object): Promise<Response> {
     if (typeof params !== "string") params = buildQueryParams(params);
     try {
       const data = await fetch(
@@ -179,7 +192,11 @@ export default () => ({
       return data;
     } catch (error) {
       if (error.status === 403) {
-        currentKeyIndex = (currentKeyIndex + 1) % keys.length;
+        currentKeyIndex++;
+        if (currentKeyIndex >= keys.length) {
+          currentKeyIndex = 0;
+          return {};
+        }
         return this.fetchRandomFilm(params);
       } else {
         throw error;
