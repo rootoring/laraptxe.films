@@ -6,6 +6,7 @@ const keys = [
   "1TC4BMX-0A64D2K-KZG0RNJ-PASR9DG",
   "584KP88-YPGMVS2-JYV9D8F-6VMPN71",
   "097E415-JKFMB0A-P5G3NNQ-PGHC0B1",
+  "T50R3ZC-2QVMW7W-K595PJX-Y9ARNAK",
 ];
 let currentKeyIndex = 0;
 export default () => ({
