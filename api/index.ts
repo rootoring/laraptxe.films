@@ -10,6 +10,20 @@ const keys = [
 ];
 let currentKeyIndex = 0;
 export default () => ({
+  async login(body){
+   const data = await fetch(
+    `http://localhost:8080/login`,
+    {
+      method:'POST',
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+     body:JSON.stringify(body),
+    }
+  ); console.log(data)
+  return data
+  },
   async fetchAllFilms() {
     try {
       let randomPage = () => {
@@ -204,4 +218,5 @@ export default () => ({
       }
     }
   },
+//  async fetchSavedFilms(id:string)
 });

@@ -1,14 +1,20 @@
 import { defineStore } from "pinia";
-import { type taskType } from "../types";
+import { type filmType } from "../types/index";
 import apiModule from "../api";
 const api = apiModule();
 interface State {
-  films: taskType[];
-  film: {};
+  films: filmType[];
+  film: filmType | {};
   filmImg: [];
   anime: [];
   filterFilm: [];
   menuStatus: boolean;
+  user:{
+  _id:String,
+  username: String
+  films:[] | String[]
+  isAdmin:boolean
+} | {}
 }
 
 export const useStore = defineStore({
@@ -20,6 +26,8 @@ export const useStore = defineStore({
     anime: [],
     filterFilm: [],
     menuStatus: false,
+    user:{
+    }
   }),
   // getters: {
 
@@ -114,5 +122,19 @@ export const useStore = defineStore({
         console.error("Error parsing saved tasks:", e);
       }
     },
+    async fetchSavedFilms() {
+      let data = await api.fetchFilmsByFilters({id:this.user.films});
+      let { docs } = await data.json();
+
+      this.films = docs;
+      try {
+      } catch (e) {
+        console.error("Error parsing saved tasks:", e);
+      }
+    },
+    async login(){
+      const data = await api.login({username:'a', password:'a'})
+      this.user = await data.json()
+    }
   },
 });
