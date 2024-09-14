@@ -11,7 +11,7 @@ const keys = [
 let currentKeyIndex = 0;
 export default () => ({
   async login(body) {
-    const data = await fetch(`http://api.laraptxe.ru/login`, {
+    const data = await fetch(`https://api.laraptxe.ru/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +22,7 @@ export default () => ({
     return data;
   },
   async register(body) {
-    const data = await fetch(`http://api.laraptxe.ru/register`, {
+    const data = await fetch(`https://api.laraptxe.ru/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,7 +34,7 @@ export default () => ({
   },
   async saveFilm(body) {
     const data = await fetch(
-      `http://api.laraptxe.ru/users/${body.userId}/add-film`,
+      `https://api.laraptxe.ru/users/${body.userId}/add-film`,
       {
         method: "PUT",
         headers: {
@@ -48,7 +48,7 @@ export default () => ({
   },
   async delFilm(body) {
     const data = await fetch(
-      `http://api.laraptxe.ru/users/${body.userId}/remove-film`,
+      `https://api.laraptxe.ru/users/${body.userId}/remove-film`,
       {
         method: "PUT",
         headers: {
