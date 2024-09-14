@@ -1,5 +1,6 @@
 <template>
   <main>
+    <message />
     <NuxtPage />
   </main>
 </template>

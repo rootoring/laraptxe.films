@@ -110,11 +110,14 @@ button {
 .page-enter-from,
 .page-leave-to {
   opacity: 0;
-  transform: scale(10);
+  transform: translate3d(42px, -62px, -135px);
 }
 .glass {
   background: rgba(255, 255, 255, 0.05);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(10px);
   border-radius: 8px;
+}
+.pointer {
+  cursor: pointer;
 }

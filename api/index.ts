@@ -10,19 +10,55 @@ const keys = [
 ];
 let currentKeyIndex = 0;
 export default () => ({
-  async login(body){
-   const data = await fetch(
-    `http://localhost:8080/login`,
-    {
-      method:'POST',
+  async login(body) {
+    const data = await fetch(`http://api.laraptxe.ru/login`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // 'Content-Type': 'application/x-www-form-urlencoded',
       },
-     body:JSON.stringify(body),
-    }
-  ); console.log(data)
-  return data
+      body: JSON.stringify(body),
+    });
+
+    return data;
+  },
+  async register(body) {
+    const data = await fetch(`http://api.laraptxe.ru/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    return data;
+  },
+  async saveFilm(body) {
+    const data = await fetch(
+      `http://api.laraptxe.ru/users/${body.userId}/add-film`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ films: [body.filmId] }),
+      }
+    );
+
+    return data;
+  },
+  async delFilm(body) {
+    const data = await fetch(
+      `http://api.laraptxe.ru/users/${body.userId}/remove-film`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ films: [body.filmId] }),
+      }
+    );
+
+    return data;
   },
   async fetchAllFilms() {
     try {
@@ -218,5 +254,5 @@ export default () => ({
       }
     }
   },
-//  async fetchSavedFilms(id:string)
+  //  async fetchSavedFilms(id:string)
 });

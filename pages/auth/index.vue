@@ -6,10 +6,7 @@
     <p class="font-beer color-gray100 mb-xxl logo hov-text">
       Laraptxe<span class="logo-sub color-primary">.films</span>
     </p>
-    <div class="d-flex gap-s mb-s">
-      <button :class="regStatus? '': 'actvBtn'" @click="regStatus=!regStatus">Регестрация</button>
-      <button :class="!regStatus? '': 'actvBtn'"  @click="regStatus=!regStatus">Вход</button>
-    </div>
+
     <div v-if="regStatus" class="w-5 form d-flex flex-column">
       <h1 class="fs-l color-gray500 mb-m">Вход</h1>
       <div class="form-group mb-s">
@@ -26,6 +23,12 @@
         <i @click="passType = !passType" class="far fa-eye"></i>
       </div>
       <btn class="btn mt-l" @click="login">Войти</btn>
+      <div class="color-gray800 text-center pt-l">
+        Нет аккаунта?
+        <span class="color-primary pointer" @click="regStatus = !regStatus"
+          >Регистрация</span
+        >
+      </div>
     </div>
 
     <!--registr-->
@@ -37,7 +40,12 @@
       </div>
       <div class="form-group mb-s">
         <label class="color-gray400" for="page">Номер :</label>
-        <input v-model.trim="userRegist.tel" class="form-control"  min="0" type="number"/>
+        <input
+          v-model.trim="userRegist.tel"
+          class="form-control"
+          min="0"
+          type="number"
+        />
       </div>
       <div class="form-group mb-s">
         <label class="color-gray400" for="page">Пароль:</label>
@@ -57,7 +65,15 @@
         />
         <i @click="passType = !passType" class="far fa-eye"></i>
       </div>
-      <btn class="btn mt-l" @click="login">Регестрация</btn>
+      <btn class="btn mt-l" @click="registerUser" :disable="checkReg"
+        >Регестрация</btn
+      >
+      <div class="color-gray800 text-center pt-l">
+        Есть аккаунт?
+        <span class="color-primary pointer" @click="regStatus = !regStatus"
+          >Вход</span
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -65,8 +81,11 @@
 import btn from "../../components/ui/btn.vue";
 import { useRouter } from "vue-router";
 const route = useRouter();
-const user = useState("user");
-let regStatus: Ref<Boolean> = ref(false)
+
+import { useStore } from "../../store/store";
+
+const store = useStore();
+let regStatus: Ref<Boolean> = ref(false);
 let passType = ref(false);
 const userData = ref({
   username: "",
@@ -75,25 +94,46 @@ const userData = ref({
 const userRegist = ref({
   username: "",
   password: "",
-  checkPass:'',
-  tel:'',
+  checkPass: "",
+  tel: "",
 });
-const login = () => {
+const login = async () => {
   let username = userData.value.username;
   let password = userData.value.password;
-  if (username == "admin" && password == "0000") {
-    localStorage.setItem("user", JSON.stringify(userData.value));
-    console.log(localStorage.getItem("user"));
-    user.value = true;
+  if (username == "" || password == "") return;
+  await store.login(userData.value);
+  if (store.user !== null) {
     route.push("/");
+  }
+};
+const checkReg = computed(() => {
+  if (
+    userRegist.value.username !== "" &&
+    userRegist.value.password !== "" &&
+    userRegist.value.tel !== "" &&
+    userRegist.value.checkPass !== ""
+  ) {
+    return false;
+  }
+
+  return true;
+});
+const registerUser = async () => {
+  if (userRegist.value.password === userRegist.value.checkPass) {
+    await store.register({
+      username: userRegist.value.username,
+      password: userRegist.value.password,
+      tel: userRegist.value.tel,
+    });
+    if (store.user !== null) {
+      console.log("push");
+      route.push("/");
+    }
   }
 };
 onMounted(() => {
   if (localStorage.getItem("user")) {
-    let { username, password } = JSON.parse(localStorage.getItem("user"));
-    userData.value.username = username;
-    userData.value.password = password;
-    login();
+    route.push("/");
   }
 });
 definePageMeta({
@@ -101,20 +141,21 @@ definePageMeta({
 });
 </script>
 <style lang="scss">
-.actvBtn{
+.actvBtn {
   background-color: rgb(145, 47, 202);
 }
 .logo {
   cursor: pointer;
+  font-size: 35px;
 }
 .fa-eye {
-  color:#424141;
+  color: #424141;
   position: absolute;
   right: 7px;
   top: 60%;
   cursor: pointer;
   font-size: 16px;
-  transition: color .3s;
+  transition: color 0.3s;
   &:hover {
     color: rgb(145, 47, 202);
   }

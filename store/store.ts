@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { type filmType } from "../types/index";
 import apiModule from "../api";
+import type { register } from "swiper/element";
 const api = apiModule();
 interface State {
   films: filmType[];
@@ -9,12 +10,13 @@ interface State {
   anime: [];
   filterFilm: [];
   menuStatus: boolean;
-  user:{
-  _id:String,
-  username: String
-  films:[] | String[]
-  isAdmin:boolean
-} | {}
+  user: {
+    _id: String;
+    username: String;
+    films: [] | String[];
+    isAdmin: boolean;
+  } | null;
+  messages: { message: string; status: string }[] | [];
 }
 
 export const useStore = defineStore({
@@ -26,8 +28,8 @@ export const useStore = defineStore({
     anime: [],
     filterFilm: [],
     menuStatus: false,
-    user:{
-    }
+    user: null,
+    messages: [],
   }),
   // getters: {
 
@@ -123,7 +125,8 @@ export const useStore = defineStore({
       }
     },
     async fetchSavedFilms() {
-      let data = await api.fetchFilmsByFilters({id:this.user.films});
+      if (this.user.films.length <= 0) return;
+      let data = await api.fetchFilmsByFilters({ id: this.user.films });
       let { docs } = await data.json();
 
       this.films = docs;
@@ -132,9 +135,84 @@ export const useStore = defineStore({
         console.error("Error parsing saved tasks:", e);
       }
     },
-    async login(){
-      const data = await api.login({username:'a', password:'a'})
-      this.user = await data.json()
-    }
+    async login(body) {
+      try {
+        const data = await api.login(body);
+
+        if (!data.ok) {
+          const meta = await data.json();
+          this.addElement(meta);
+          throw new Error("Ошиииибка");
+        }
+        const userData = await data.json();
+        this.user = userData;
+        localStorage.setItem("user", JSON.stringify(this.user));
+      } catch (err) {
+        console.log(err.message);
+      }
+    },
+    async register(body) {
+      try {
+        const data = await api.register(body);
+        if (!data.ok) {
+          const meta = await data.json();
+          this.addElement(meta);
+          throw new Error("Ошиииибка");
+        }
+        const { userData, meta } = await data.json();
+        this.user = userData;
+        localStorage.setItem("user", JSON.stringify(this.user));
+        this.addElement(meta);
+      } catch (err) {
+        console.log(err.message);
+      }
+    },
+    async saveFilm(filmId) {
+      try {
+        const data = await api.saveFilm({ userId: this.user?._id, filmId });
+        if (!data.ok) {
+          const meta = await data.json();
+          this.addElement(meta);
+          throw new Error("Ошиииибка");
+        }
+        const { userData, meta } = await data.json();
+        this.user = userData;
+        localStorage.setItem("user", JSON.stringify(this.user));
+        this.addElement(meta);
+      } catch (err) {
+        console.log(err.message);
+      }
+    },
+    async delFilm(filmId) {
+      try {
+        const data = await api.delFilm({ userId: this.user?._id, filmId });
+        if (!data.ok) {
+          const meta = await data.json();
+          this.addElement(meta);
+          throw new Error("Ошиииибка");
+        }
+        const { userData, meta } = await data.json();
+        this.user = userData;
+        localStorage.setItem("user", JSON.stringify(this.user));
+        this.addElement(meta);
+      } catch (err) {
+        console.log(err.message);
+      }
+    },
+    addElement(element) {
+      this.messages.push(element);
+
+      setTimeout(() => {
+        this.removeElement(element);
+      }, 5000);
+    },
+
+    // Функция для удаления элемента
+    removeElement(element) {
+      const index = this.messages.indexOf(element);
+      if (index > -1) {
+        this.messages.splice(index, 1); // Удаляем элемент из массива
+      }
+    },
   },
 });

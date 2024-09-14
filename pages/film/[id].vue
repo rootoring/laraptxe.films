@@ -2,6 +2,9 @@
   <div>
     <div class="container">
       <div class="film-info mt-l mb-m d-flex items-center">
+        <div class="saveFilm fs-l color-primary" @click="addfilm">
+          <i :class="haveFilm ? 'fas' : 'far'" class="fa-bookmark"></i>
+        </div>
         <div class="info-left pr-s">
           <img
             :src="
@@ -90,14 +93,24 @@ import { useRoute } from "vue-router";
 const store = useStore();
 
 const route = useRoute();
+
+const haveFilm = computed(() => {
+  return store?.user?.films.indexOf(route.params.id) !== -1;
+});
+const addfilm = async () => {
+  if (haveFilm.value) {
+    return await store.delFilm(route.params.id);
+  }
+  await store.saveFilm(route.params.id);
+};
 onMounted(async () => {
   await store.fetchImg(route.params.id);
   if (!store.films.docs) await store.fetchFilms();
 });
-let aa = async () => {
+let ssrFetch = async () => {
   await store.fetchFilm(route.params.id);
 };
-aa();
+ssrFetch();
 function transformImageUrl(origUrl) {
   const regex = /\/(\d+)\/([a-f0-9\-]+)\/orig$/;
   const match = origUrl.match(regex);
@@ -129,7 +142,13 @@ onUnmounted(() => {
 });
 </script>
 <style scoped>
+.saveFilm {
+  position: absolute;
+  right: 35px;
+  cursor: pointer;
+}
 .film-info {
+  position: relative;
   display: flex;
   align-items: flex-start;
   gap: 20px;
