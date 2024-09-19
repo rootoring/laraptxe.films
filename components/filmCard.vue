@@ -34,7 +34,7 @@ function transformImageUrl(origUrl) {
   const match = origUrl.match(regex);
 
   if (!match) {
-    throw new Error("URL не соответствует ожидаемому формату");
+    return false;
   }
 
   const imageId = match[1];

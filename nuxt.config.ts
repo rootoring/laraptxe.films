@@ -41,6 +41,9 @@ export default defineNuxtConfig({
           href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css",
         },
       ],
+      script: [
+        { src: "https://kinobox.tv/kinobox.min.js", async: true, defer: true },
+      ],
     },
   },
   devtools: { enabled: true },

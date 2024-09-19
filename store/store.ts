@@ -116,20 +116,23 @@ export const useStore = defineStore({
     },
     async fetchTopFilms(params) {
       let data = await api.fetchFilmsByFilters(params);
-      let { docs } = await data.json();
-
-      this.films.push(...docs);
+      let { docs, total } = await data.json();
+      
+      this.films.push(...docs) ;
+      return this.films.length == total 
       try {
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
       }
     },
-    async fetchSavedFilms() {
-      if (this.user.films.length <= 0) return;
-      let data = await api.fetchFilmsByFilters({ id: this.user.films });
-      let { docs } = await data.json();
-
-      this.films = docs;
+    async fetchSavedFilms(page: number) {
+      if (!this.user || this.user.films.length <= 0) return;
+      let data = await api.fetchFilmsByFilters({page:page, limit:15, id: this.user.films });
+     
+      let { docs, total } = await data.json();
+      
+      this.films.push(...docs);
+      return this.films.length == total 
       try {
       } catch (e) {
         console.error("Error parsing saved tasks:", e);

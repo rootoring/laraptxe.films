@@ -56,6 +56,7 @@
         </div>
       </div>
 
+      <p class="fs-xl color-gray500">Плеер 1</p>
       <iframe
         id="cinemaplayer-iframe"
         frameborder="0"
@@ -66,6 +67,8 @@
         mozallowfullscreen="mozallowfullscreen"
         :src="'https://toembed.com/iframe/' + route.params.id"
       ></iframe>
+      <p class="fs-xl color-gray500 mt-m">Плеер 2</p>
+      <div class="kinobox_player film-iframe"></div>
     </div>
     <div v-if="store?.filmImg?.docs?.length" class="mt-l">
       <div class="container">
@@ -90,6 +93,7 @@
 <script setup>
 import { useStore } from "../store/store";
 import { useRoute } from "vue-router";
+
 const store = useStore();
 
 const route = useRoute();
@@ -105,6 +109,11 @@ const addfilm = async () => {
 };
 onMounted(async () => {
   await store.fetchImg(route.params.id);
+  await kbox(".kinobox_player", {
+    search: {
+      kinopoisk: route.params.id,
+    },
+  });
   if (!store.films.docs) await store.fetchFilms();
 });
 let ssrFetch = async () => {
@@ -133,8 +142,7 @@ watchEffect(() => {
     meta: [{ name: "description", content: store?.film?.description }],
   });
 });
-if (process.server) {
-}
+
 onUnmounted(() => {
   store.films = [];
   store.film = {};

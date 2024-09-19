@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="d-flex flex-center-column">
     <section class="user-info container">
       <div class="mt-l w-full d-flex justify-between">
         <p class="fs-xxl color-gray500">{{ store.user?.username }}</p>
@@ -8,15 +8,19 @@
         ></span>
       </div>
     </section>
-    <section class="user-saveFilms container">
+    <section class="user-saveFilms container d-flex flex-center-column ">
       <h2 class="fs-xxl color-gray500 mt-l">Сохранённые фильмы:</h2>
       <TransitionGroup
         name="list"
         tag="div"
-        class="d-flex flex-wrap-center gap-s mt-l"
+        class="d-flex flex-wrap gap-s mt-l film-lists"
       >
         <FilmCard v-for="film of store?.films" :data="film" :key="film?.id" />
       </TransitionGroup>
+      <div class="loadMoreBtn">
+        <starWarsLoader v-show="loadFilm" />
+        <button v-show="btnShow" @click="loadMore">Загрузить еще</button>
+      </div>
     </section>
   </div>
 </template>
@@ -32,7 +36,9 @@ const store = useStore();
 onMounted(async () => {
   const user = localStorage.getItem("user");
   store.user = JSON.parse(user);
-  await store.fetchSavedFilms();
+  loadFilm.value = true;
+  await store.fetchSavedFilms(page.value);
+  loadFilm.value = false;
 });
 const logout = () => {
   localStorage.removeItem("user");
@@ -40,13 +46,35 @@ const logout = () => {
   route.push("/auth");
 };
 let loadFilm = ref(false);
-// const loadMore = async () => {
-//   loadFilm.value = true;
-//   params.page += 1;
-//   await store.fetchTopFilms(params);
-//   loadFilm.value = false;
-// };
+let fetchEnd = ref(false)
+const btnShow = computed(()=>{
+  if(loadFilm.value) return false
+  if(fetchEnd.value) return false
+  return true
+})
+
+let page = ref(1)
+const loadMore = async () => {
+  loadFilm.value = true;
+  page.value += 1;
+  fetchEnd.value =  await store.fetchSavedFilms(page.value)
+  loadFilm.value = false;
+};
 onUnmounted(() => {
   store.films = [];
 });
 </script>
+<style scoped>
+.user-saveFilms{
+  justify-self: center;
+}
+.loadMoreBtn {
+  align-self: center;
+  margin-top: 80px;
+}
+@media (max-width: 782px){
+  .film-lists{
+    justify-content: center !important;
+  }
+}
+</style>

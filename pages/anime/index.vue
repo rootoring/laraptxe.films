@@ -11,7 +11,7 @@
         </TransitionGroup>
         <div class="loadMoreBtn">
           <starWarsLoader v-show="loadFilm" />
-          <btn v-show="!loadFilm" @click="loadMore">Загрузить еще</btn>
+          <btn v-show="btnShow" @click="loadMore">Загрузить еще</btn>
         </div>
       </div>
     </section>
@@ -31,10 +31,16 @@
     loadFilm.value = false;
   });
   let loadFilm = ref(false);
+  let fetchEnd = ref(false)
+  const btnShow = computed(()=>{
+    if(loadFilm.value) return false
+    if(fetchEnd.value) return false
+    return true
+  })
   const loadMore = async () => {
     loadFilm.value = true;
     params.page += 1;
-    await store.fetchTopFilms(params);
+    fetchEnd.value =  await store.fetchTopFilms(params);
     loadFilm.value = false;
   };
   onUnmounted(() => {

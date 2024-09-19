@@ -63,7 +63,7 @@ export default () => ({
   async fetchAllFilms() {
     try {
       let randomPage = () => {
-        return Math.floor(Math.random() * 34) + 1;
+        return Math.floor(Math.random() * 33) + 1;
       };
       const data = await fetch(
         `https://api.kinopoisk.dev/v1.4/movie/search?page=${randomPage()}&limit=30&query=`,
