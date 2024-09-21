@@ -22,7 +22,7 @@ export default () => ({
     return data;
   },
   async register(body) {
-    const data = await fetch(`https://api.laraptxe.ru/register`, {
+    const data = await fetch(`http://localhost:8080/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -33,12 +33,15 @@ export default () => ({
     return data;
   },
   async saveFilm(body) {
+    const token = JSON.parse(localStorage.getItem("user"));
+    console.log(token)
     const data = await fetch(
-      `https://api.laraptxe.ru/users/${body.userId}/add-film`,
+      `http://localhost:8080/users/${body.userId}/add-film`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          'authorization': token.token,
         },
         body: JSON.stringify({ films: [body.filmId] }),
       }
@@ -47,12 +50,15 @@ export default () => ({
     return data;
   },
   async delFilm(body) {
+    const token = JSON.parse(localStorage.getItem("user"));
+    console.log(token)
     const data = await fetch(
-      `https://api.laraptxe.ru/users/${body.userId}/remove-film`,
+      `http://localhost:8080/users/${body.userId}/remove-film`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          'authorization': token.token,
         },
         body: JSON.stringify({ films: [body.filmId] }),
       }

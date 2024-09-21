@@ -172,6 +172,8 @@ export const useStore = defineStore({
     },
     async saveFilm(filmId) {
       try {
+        const token = JSON.parse(localStorage.getItem("user"));
+        console.log(token)
         const data = await api.saveFilm({ userId: this.user?._id, filmId });
         if (!data.ok) {
           const meta = await data.json();
