@@ -34,14 +34,13 @@ export default () => ({
   },
   async saveFilm(body) {
     const token = JSON.parse(localStorage.getItem("user"));
-    console.log(token)
     const data = await fetch(
       `http://localhost:8080/users/${body.userId}/add-film`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          'authorization': token.token,
+          authorization: token.token,
         },
         body: JSON.stringify({ films: [body.filmId] }),
       }
@@ -51,14 +50,13 @@ export default () => ({
   },
   async delFilm(body) {
     const token = JSON.parse(localStorage.getItem("user"));
-    console.log(token)
     const data = await fetch(
       `http://localhost:8080/users/${body.userId}/remove-film`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          'authorization': token.token,
+          authorization: token.token,
         },
         body: JSON.stringify({ films: [body.filmId] }),
       }
