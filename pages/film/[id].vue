@@ -46,30 +46,45 @@
           </p>
           <p class="film-countries">
             Страны:
-            <span class="countries" v-for="(i, index) of store?.film?.countries"
-              >{{ i.name
-              }}<span v-if="store?.film?.countries.length !== index + 1"
+            <span
+              class="countries"
+              v-for="(i, index) of store?.film?.countries"
+            >
+              {{ i.name
+              }}<span
+                class="mr-xxs"
+                v-if="store?.film?.countries.length !== index + 1"
                 >,
               </span>
             </span>
           </p>
         </div>
       </div>
-
-      <p class="fs-xl color-gray500">Плеер 1</p>
-      <iframe
-        id="cinemaplayer-iframe"
-        frameborder="0"
-        scrolling="no"
-        class="film-iframe"
-        allowfullscreen="allowfullscreen"
-        webkitallowfullscreen="webkitallowfullscreen"
-        mozallowfullscreen="mozallowfullscreen"
-        :src="'https://toembed.com/iframe/' + route.params.id"
-      ></iframe>
-      <p class="fs-xl color-gray500 mt-m">Плеер 2</p>
-      <div class="kinobox_player film-iframe"></div>
+      <section>
+        <p class="fs-xl color-gray500">Плеер 1</p>
+        <iframe
+          id="cinemaplayer-iframe"
+          frameborder="0"
+          scrolling="no"
+          class="film-iframe"
+          allowfullscreen="allowfullscreen"
+          webkitallowfullscreen="webkitallowfullscreen"
+          mozallowfullscreen="mozallowfullscreen"
+          :src="'https://toembed.com/iframe/' + route.params.id"
+        ></iframe>
+      </section>
+      <section>
+        <p class="fs-xl color-gray500 mt-m">Плеер 2</p>
+        <div class="kinobox_player film-iframe"></div>
+      </section>
     </div>
+    <section>
+      <div class="container">
+        <p class="fs-xl color-gray500 mt-m">Актеры</p>
+
+        <ActorsSlider :data="actors" />
+      </div>
+    </section>
     <div v-if="store?.filmImg?.docs?.length" class="mt-l">
       <div class="container">
         <h2 class="fs-xl color-gray300 mb-s">Фото</h2>
@@ -100,6 +115,11 @@ const route = useRoute();
 
 const haveFilm = computed(() => {
   return store?.user?.films.indexOf(route.params.id) !== -1;
+});
+const actors = computed(() => {
+  if (store?.film?.persons) {
+    return store?.film?.persons.filter((p) => p.enProfession === "actor");
+  }
 });
 const addfilm = async () => {
   if (haveFilm.value) {

@@ -178,6 +178,30 @@ export default () => ({
       }
     }
   },
+  async fetchPerson(id: number) {
+    try {
+      const data = await fetch(`https://api.kinopoisk.dev/v1.4/person/${id}`, {
+        headers: {
+          "X-API-KEY": keys[currentKeyIndex],
+        },
+      });
+      if (!data.ok) {
+        throw data;
+      }
+      return data;
+    } catch (error) {
+      if (error.status === 403) {
+        currentKeyIndex++;
+        if (currentKeyIndex >= keys.length) {
+          currentKeyIndex = 0;
+          return {};
+        }
+        return this.fetchPerson(id);
+      } else {
+        throw error;
+      }
+    }
+  },
   async fetchFilmsByName(name: string) {
     try {
       const data = await fetch(

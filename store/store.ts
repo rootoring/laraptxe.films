@@ -16,6 +16,7 @@ interface State {
     films: [] | String[];
     isAdmin: boolean;
   } | null;
+  person: {};
   messages: { message: string; status: string }[] | [];
 }
 
@@ -29,6 +30,7 @@ export const useStore = defineStore({
     filterFilm: [],
     menuStatus: false,
     user: null,
+    person: {},
     messages: [],
   }),
   // getters: {
@@ -49,7 +51,7 @@ export const useStore = defineStore({
     async fetchFilm(id: number) {
       let data = await api.fetchFilm(id);
       this.film = data;
-
+      console.log(this.film);
       // this.films = arr.docs;
       try {
       } catch (e) {
@@ -117,9 +119,9 @@ export const useStore = defineStore({
     async fetchTopFilms(params) {
       let data = await api.fetchFilmsByFilters(params);
       let { docs, total } = await data.json();
-      
-      this.films.push(...docs) ;
-      return this.films.length == total 
+
+      this.films.push(...docs);
+      return this.films.length == total;
       try {
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
@@ -127,12 +129,16 @@ export const useStore = defineStore({
     },
     async fetchSavedFilms(page: number) {
       if (!this.user || this.user.films.length <= 0) return;
-      let data = await api.fetchFilmsByFilters({page:page, limit:15, id: this.user.films });
-     
+      let data = await api.fetchFilmsByFilters({
+        page: page,
+        limit: 15,
+        id: this.user.films,
+      });
+
       let { docs, total } = await data.json();
-      
+
       this.films.push(...docs);
-      return this.films.length == total 
+      return this.films.length == total;
       try {
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
@@ -173,7 +179,7 @@ export const useStore = defineStore({
     async saveFilm(filmId) {
       try {
         const token = JSON.parse(localStorage.getItem("user"));
-        console.log(token)
+        console.log(token);
         const data = await api.saveFilm({ userId: this.user?._id, filmId });
         if (!data.ok) {
           const meta = await data.json();
@@ -204,6 +210,18 @@ export const useStore = defineStore({
         console.log(err.message);
       }
     },
+
+    async fetchPerson(id: number) {
+      let data = await api.fetchPerson(id);
+      this.person = await data.json();
+
+      // this.films = arr.docs;
+      try {
+      } catch (e) {
+        console.error("Error parsing saved tasks:", e);
+      }
+    },
+
     addElement(element) {
       this.messages.push(element);
 

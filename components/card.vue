@@ -4,10 +4,10 @@
       class="card-img d-flex items-center"
       :style="{
         backgroundImage: `url(  ${
-          data?.backdrop?.url
-            ? transformImageUrlToOtt(data?.backdrop?.url)
-            : data?.poster?.url
+          !data?.backdrop?.url
             ? data?.poster?.url
+            : transformImageUrlToOtt(data?.backdrop?.url)
+            ? transformImageUrlToOtt(data?.backdrop?.url)
             : 'logo.jpg'
         })`,
       }"
@@ -51,20 +51,16 @@ function transformImageUrlToOtt(origUrl) {
   // Используем регулярное выражение для извлечения идентификатора и хэша изображения
   const regex = /\/(\d+)\/([a-f0-9\-]+)\/orig$/;
   const match = origUrl.match(regex);
+  if (!match) return props.data?.poster?.url ? props.data?.poster?.url : false;
 
-  if (!match) {
-    return false;
-  }
-
-  const imageId = match[1];
-  const imageHash = match[2];
+  const [, imageId, imageHash] = match;
 
   // Формируем новый URL с указанным размером
   const newUrl = `https://avatars.mds.yandex.net/get-ott/${imageId}/${imageHash}/2016x1134`;
   return newUrl;
 }
 
-defineProps({
+const props = defineProps({
   data: Object,
 });
 </script>
