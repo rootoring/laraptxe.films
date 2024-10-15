@@ -27,7 +27,7 @@
     class="mySwiper"
   >
     <swiper-slide v-for="img of data">
-      <img :src="img?.url" alt="" class="slide-img"
+      <img :src="img?.previewUrl" alt="" class="slide-img"
     /></swiper-slide>
   </swiper>
 </template>

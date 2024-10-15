@@ -99,8 +99,8 @@ const imgValid = computed(() => {
 /* Адаптивные стили для мобильных устройств */
 @media (max-width: 480px) {
   .actor-card {
-    width: 140px;
-    height: 210px;
+    width: 160px;
+    height: 240px;
   }
 
   .actor-name {

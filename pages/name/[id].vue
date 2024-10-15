@@ -48,9 +48,29 @@
       </ul>
 
       <div v-if="actor?.facts?.length > 3" class="toggle-facts-btn">
-        <div @click="toggleFacts" class="toggle-btn">
+        <div @click="showAllFacts = !showAllFacts" class="toggle-btn">
           {{ showAllFacts ? "Скрыть" : "Показать ещё" }}
           <span class="arrow" :class="showAllFacts ? 'open' : ''"
+            ><i class="fas fa-angle-right"></i
+          ></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-m">
+      <h2 class="facts-title">Фильмы с участием:</h2>
+      <TransitionGroup name="list" tag="div" class="actor-films">
+        <NuxtLink
+          class="d-flex flex-center"
+          :to="'/film/' + movie.id"
+          v-for="movie of visibleFilms"
+          ><actorFilmCard :movie="movie" class="flex"
+        /></NuxtLink>
+      </TransitionGroup>
+      <div v-if="actor?.movies?.length > 3" class="toggle-facts-btn">
+        <div @click="showAllFilms = !showAllFilms" class="toggle-btn">
+          {{ showAllFilms ? "Скрыть" : "Показать всё" }}
+          <span class="arrow" :class="showAllFilms ? 'open' : ''"
             ><i class="fas fa-angle-right"></i
           ></span>
         </div>
@@ -67,7 +87,8 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 const store = useStore();
 const actor = ref({});
-const showAllFacts = ref(false); // Управляем отображением всех фактов
+const showAllFacts = ref(false);
+const showAllFilms = ref(false);
 const personLoadet = ref(true);
 
 // Функция для отображения первых трёх или всех фактов
@@ -75,6 +96,11 @@ const visibleFacts = computed(() => {
   return showAllFacts.value
     ? actor.value.facts
     : actor?.value?.facts?.slice(0, 3);
+});
+const visibleFilms = computed(() => {
+  return showAllFilms.value
+    ? actor.value.movies.filter((i) => i.name !== null)
+    : actor?.value?.movies?.filter((i) => i.name !== null).slice(0, 9);
 });
 
 onMounted(async () => {
@@ -90,13 +116,15 @@ const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleDateString("ru-RU", options);
 };
-
-const toggleFacts = () => {
-  showAllFacts.value = !showAllFacts.value;
-};
 </script>
 
 <style>
+.actor-films {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  align-items: stretch;
+}
 .toggle-facts-btn {
   display: flex;
   justify-content: center;
@@ -130,9 +158,6 @@ const toggleFacts = () => {
 }
 .all {
   color: rgb(162, 68, 216);
-}
-.container {
-  padding: 20px;
 }
 
 .actor-page {
@@ -214,8 +239,17 @@ const toggleFacts = () => {
   top: 10px;
   right: 10px;
 }
-
+@media (max-width: 1000px) {
+  .actor-films {
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+  }
+}
 @media (max-width: 768px) {
+  .actor-films {
+    grid-template-columns: repeat(1, 1fr);
+    justify-content: center;
+  }
   .actor-header {
     flex-direction: column;
     align-items: center;

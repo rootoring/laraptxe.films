@@ -92,6 +92,14 @@
 
       <ImgSlider :data="store?.filmImg?.docs" />
     </div>
+
+    <div class="container" v-if="store?.film?.sequelsAndPrequels?.length">
+      <h2 class="fs-xl color-gray300 mb-s pt-xxl">
+        Сиквелы, приквелы и ремейки
+      </h2>
+      <RecSlider :data="store?.film?.sequelsAndPrequels" />
+    </div>
+
     <div v-if="store?.film?.similarMovies?.length" class="bg-gray900 py-m mt-m">
       <div class="container">
         <h2 class="fs-xl color-gray300 mb-s">Похожее</h2>

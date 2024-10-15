@@ -11,7 +11,7 @@
       <div class="saveFilm fs-l color-primary" @click="addfilm($event)">
         <i :class="haveFilm ? 'fas' : 'far'" class="fa fa-bookmark"></i>
       </div>
-      <div class="rating-indicator">
+      <div class="rating-indicator" v-if="data?.rating?.kp">
         <div
           class="rating-circle"
           :style="{ borderColor: ratingColor(data?.rating?.kp) }"
@@ -42,7 +42,6 @@ import { useStore } from "../store/store";
 const store = useStore();
 
 const haveFilm = computed(() => {
-  console.log(store?.user?.films.indexOf(JSON.stringify(props.data?.id)));
   return store?.user?.films.indexOf(JSON.stringify(props.data?.id)) !== -1;
 });
 const addfilm = async (e) => {

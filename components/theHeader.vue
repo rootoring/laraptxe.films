@@ -69,6 +69,7 @@ header {
   top: 0;
   z-index: 8888;
   background-color: #212121;
+  box-shadow: #1a1616 0px 1px 4px;
 }
 .logo {
   font-size: 35px;
