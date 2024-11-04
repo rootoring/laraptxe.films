@@ -125,7 +125,7 @@ const userRegist = reactive({
 });
 
 //login valid
-const regUsernameValid: Ref<string | Boolean> = ref(false);
+const regUsernameValid: Ref<string | Boolean> = ref(" ");
 watch(
   () => userRegist.username,
   (newValue) => {
@@ -144,7 +144,7 @@ watch(
 );
 
 //tel valid
-const regTelValid: Ref<string | Boolean> = ref(false);
+const regTelValid: Ref<string | Boolean> = ref(" ");
 watch(
   () => userRegist.tel,
   (newValue) => {
@@ -162,7 +162,7 @@ watch(
 );
 
 //password valid
-const regPassValid: Ref<string | Boolean> = ref(false);
+const regPassValid: Ref<string | Boolean> = ref(" ");
 watch(
   () => userRegist.password,
   (newValue) => {
@@ -177,7 +177,7 @@ watch(
     regPassValid.value = false;
   }
 );
-const regCheckPassValid: Ref<string | Boolean> = ref(false);
+const regCheckPassValid: Ref<string | Boolean> = ref(" ");
 watch(
   () => userRegist.checkPass,
   (newValue) => {
@@ -217,6 +217,7 @@ const checkReg = computed(() => {
   return false;
 });
 const registerUser = async () => {
+  console.log(checkReg.value);
   if (!checkReg.value) return false;
   loadActive.value = true;
   await store.register({
