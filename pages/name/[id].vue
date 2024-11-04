@@ -67,7 +67,7 @@
           ><actorFilmCard :movie="movie" class="flex"
         /></NuxtLink>
       </TransitionGroup>
-      <div v-if="actor?.movies?.length > 3" class="toggle-facts-btn">
+      <div v-if="actor?.movies?.length > 9" class="toggle-facts-btn">
         <div @click="showAllFilms = !showAllFilms" class="toggle-btn">
           {{ showAllFilms ? "Скрыть" : "Показать всё" }}
           <span class="arrow" :class="showAllFilms ? 'open' : ''"
