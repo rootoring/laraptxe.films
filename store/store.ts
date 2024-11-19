@@ -227,7 +227,7 @@ export const useStore = defineStore({
 
       setTimeout(() => {
         this.removeElement(element);
-      }, 5000);
+      }, 2000);
     },
 
     // Функция для удаления элемента

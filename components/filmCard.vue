@@ -8,7 +8,8 @@
         })`,
       }"
     >
-      <div class="saveFilm fs-l color-primary" @click="addfilm($event)">
+      <MiniLoader class="saveFilm-loader" v-if="changeFilmStatus" />
+      <div class="saveFilm fs-l color-primary" @click="addfilm($event)" v-else>
         <i :class="haveFilm ? 'fas' : 'far'" class="fa fa-bookmark"></i>
       </div>
       <div class="rating-indicator" v-if="data?.rating?.kp">
@@ -44,12 +45,16 @@ const store = useStore();
 const haveFilm = computed(() => {
   return store?.user?.films.indexOf(JSON.stringify(props.data?.id)) !== -1;
 });
+let changeFilmStatus = ref(false);
 const addfilm = async (e) => {
+  changeFilmStatus.value = true;
   e.preventDefault();
   if (haveFilm.value) {
-    return await store.delFilm(props.data?.id);
+    await store.delFilm(props.data?.id);
+    return (changeFilmStatus.value = false);
   }
   await store.saveFilm(props.data?.id);
+  changeFilmStatus.value = false;
 };
 function transformImageUrl(origUrl) {
   const regex = /\/(\d+)\/([a-f0-9\-]+)\/orig$/;
@@ -107,7 +112,6 @@ const props = defineProps({
   text-align: center;
   font-family: "Ubuntu";
   color: #fff;
-  margin: 20px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
   position: relative;
   background-size: 105%;
@@ -147,6 +151,12 @@ const props = defineProps({
   &:hover {
     transform: scale(1.2);
   }
+}
+.saveFilm-loader {
+  position: absolute;
+  top: 14px;
+  left: 0px;
+  z-index: 999;
 }
 .movie-info {
   background: rgba(0, 0, 0, 0.7); /* Затемнение блока */

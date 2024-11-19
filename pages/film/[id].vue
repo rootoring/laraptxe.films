@@ -2,7 +2,8 @@
   <div>
     <div class="container">
       <div class="film-info mt-l mb-m d-flex items-center">
-        <div class="saveFilm fs-l color-primary" @click="addfilm">
+        <MiniLoader class="saveFilm-loader" v-if="changeFilmStatus" />
+        <div class="saveFilm fs-l color-primary" @click="addfilm" v-else>
           <i :class="haveFilm ? 'fas' : 'far'" class="fa-bookmark"></i>
         </div>
         <div class="info-left pr-s">
@@ -129,11 +130,16 @@ const actors = computed(() => {
     return store?.film?.persons.filter((p) => p.enProfession === "actor");
   }
 });
-const addfilm = async () => {
+let changeFilmStatus = ref(false);
+const addfilm = async (e) => {
+  changeFilmStatus.value = true;
+  e.preventDefault();
   if (haveFilm.value) {
-    return await store.delFilm(route.params.id);
+    await store.delFilm(route.params.id);
+    return (changeFilmStatus.value = false);
   }
   await store.saveFilm(route.params.id);
+  changeFilmStatus.value = false;
 };
 onMounted(async () => {
   await store.fetchImg(route.params.id);
@@ -182,6 +188,10 @@ onUnmounted(() => {
   position: absolute;
   right: 35px;
   cursor: pointer;
+}
+.saveFilm-loader {
+  position: absolute;
+  right: 25px;
 }
 .film-info {
   position: relative;

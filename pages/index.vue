@@ -33,9 +33,9 @@ useHead({
 });
 
 const store = useStore();
-onMounted(async () => {
+onBeforeMount(async () => {
   const token = JSON.parse(localStorage.getItem("user"));
-  console.log(token)
+  console.log(token);
   await store.fetchFilms();
   await store.fetchAnime();
 });

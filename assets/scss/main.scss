@@ -19,6 +19,7 @@ a {
 .hov-text {
   position: relative;
   padding-bottom: 3px;
+  cursor: pointer;
   &::before {
     width: 0px !important;
     bottom: -2px;
