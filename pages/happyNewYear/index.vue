@@ -1,7 +1,7 @@
 <template>
   <section class="movie-lists">
-    <div class="container d-flex flex-column">
-      <h1 class="color-gray500 fs-l mt-l">Новогоднее настроение</h1>
+    <div class="container d-flex flex-center-column">
+      <h1 class="color-gray500 title fs-l mt-l">Новогоднее настроение</h1>
       <TransitionGroup name="list" tag="div" class="film-lists mt-l">
         <FilmCard v-for="film of store?.films" :data="film" :key="film?.id" />
       </TransitionGroup>
@@ -92,7 +92,10 @@ const params = {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.title {
+  align-self: flex-start;
+}
 .loadMoreBtn {
   align-self: center;
   margin-top: 80px;
@@ -120,6 +123,11 @@ const params = {
 @media (max-width: 385px) {
   .film-lists {
     grid-template-columns: repeat(1, 1fr);
+    justify-content: center;
+
+    a {
+      align-items: center;
+    }
   }
 }
 </style>
