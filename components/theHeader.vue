@@ -8,6 +8,13 @@
         <ul class="d-flex gap-s nav-lists">
           <li class="d-flex items-center nav-list hov-text">
             <NuxtLink
+              to="/happyNewYear"
+              class="font-ubuntu color-gray100 fs-m d-flex items-center"
+              >Новогодняя подпорка</NuxtLink
+            >
+          </li>
+          <li class="d-flex items-center nav-list hov-text">
+            <NuxtLink
               to="/films"
               class="font-ubuntu color-gray100 fs-m d-flex items-center"
               >Фильмы</NuxtLink
@@ -27,13 +34,13 @@
               >Аниме</NuxtLink
             >
           </li>
-          <li class="d-flex items-center nav-list hov-text">
+          <!-- <li class="d-flex items-center nav-list hov-text">
             <NuxtLink
-              to="/"
+              to="/happyNewYear"
               class="font-ubuntu color-gray100 fs-m d-flex items-center"
               >Контакты</NuxtLink
             >
-          </li>
+          </li> -->
         </ul>
       </nav>
       <div class="d-flex gap-s items-center">

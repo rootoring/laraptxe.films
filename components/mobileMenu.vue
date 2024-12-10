@@ -14,6 +14,13 @@
         <ul class="d-flex gap-l flex-center-column">
           <li class="d-flex items-center nav-list hov-text">
             <NuxtLink
+              to="/happyNewYear"
+              class="font-ubuntu color-black fs-l text-center d-flex items-center"
+              >Новогодняя подпорка</NuxtLink
+            >
+          </li>
+          <li class="d-flex items-center nav-list hov-text">
+            <NuxtLink
               to="/films"
               class="font-ubuntu color-black fs-l d-flex items-center"
               >Фильмы</NuxtLink
@@ -33,13 +40,13 @@
               >Аниме</NuxtLink
             >
           </li>
-          <li class="d-flex items-center nav-list hov-text">
+          <!-- <li class="d-flex items-center nav-list hov-text">
             <NuxtLink
               to="/"
               class="font-ubuntu color-black fs-l d-flex items-center"
               >Контакты</NuxtLink
             >
-          </li>
+          </li> -->
         </ul>
       </nav>
     </div>
