@@ -1,19 +1,24 @@
 import { defineStore } from "pinia";
-import { type filmType } from "../types/index";
+import type {
+  filmType,
+  ParamsType,
+  filmImgType,
+  filmsType,
+} from "../types/index";
 import apiModule from "../api";
-import type { register } from "swiper/element";
+
 const api = apiModule();
 interface State {
-  films: filmType[];
+  films: filmType[] | [];
   film: filmType | {};
-  filmImg: [];
-  anime: [];
-  filterFilm: [];
+  filmImg: filmImgType | {};
+  anime: filmsType | {};
+  filterFilm: filmsType | {};
   menuStatus: boolean;
   user: {
-    _id: String;
-    username: String;
-    films: [] | String[];
+    _id: string;
+    username: string;
+    films: string[];
     isAdmin: boolean;
   } | null;
   person: {};
@@ -25,9 +30,9 @@ export const useStore = defineStore({
   state: (): State => ({
     films: [],
     film: {},
-    filmImg: [],
-    anime: [],
-    filterFilm: [],
+    filmImg: {},
+    anime: {},
+    filterFilm: {},
     menuStatus: false,
     user: null,
     person: {},
@@ -39,107 +44,88 @@ export const useStore = defineStore({
 
   actions: {
     async fetchFilms() {
-      let data = await api.fetchAllFilms();
-      this.films = await data.json();
-
-      // this.films = arr.docs;
       try {
+        this.films = await api.fetchAllFilms();
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
       }
     },
     async fetchFilm(id: number) {
       let data = await api.fetchFilm(id);
-      this.film = data;
-      console.log(this.film);
-      // this.films = arr.docs;
+      if (data !== null) this.film = data;
+
       try {
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
       }
     },
     async fetchImg(id: number) {
-      let data = await api.fetchImg(id);
-      this.filmImg = await data.json();
-
-      // this.films = arr.docs;
       try {
+        this.filmImg = await api.fetchImg(id);
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
       }
     },
     async fetchFilmsByName(name: string) {
-      let data = await api.fetchFilmsByName(name);
-      this.films = await data.json();
-
-      // this.films = arr.docs;
       try {
+        this.films = await api.fetchFilmsByName(name);
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
       }
     },
     async fetchAnime() {
-      const animeParams = {
+      const animeParams: ParamsType = {
         page: 1,
         limit: 100,
         notNullFields: ["top250"],
         sortField: ["top250"],
-        sortType: [1],
+        sortType: ["1"],
         type: ["anime"],
-        "rating.imdb": ["7.5-10"],
+        rating: { imdb: ["7.5-10"] },
       };
-      let data = await api.fetchFilmsByFilters(animeParams);
-      this.anime = await data.json();
 
-      // this.films = arr.docs;
       try {
+        this.anime = await api.fetchFilmsByFilters(animeParams);
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
       }
     },
-    async fetchFilter(params) {
-      let data = await api.fetchFilmsByFilters(params);
-      this.filterFilm = await data.json();
-
-      // this.films = arr.docs;
-      try {
-      } catch (e) {
-        console.error("Error parsing saved tasks:", e);
-      }
-    },
-    async fetchRandom(params) {
-      let data = await api.fetchRandomFilm(params);
-      return await data.json();
+    async fetchFilter(params: ParamsType) {
+      this.filterFilm = await api.fetchFilmsByFilters(params);
 
       try {
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
       }
     },
-    async fetchTopFilms(params) {
-      let data = await api.fetchFilmsByFilters(params);
-      let { docs, total } = await data.json();
-
-      this.films.push(...docs);
-      return this.films.length == total;
+    async fetchRandom(params: ParamsType) {
       try {
+        return await api.fetchRandomFilm(params);
+      } catch (e) {
+        console.error("Error parsing saved tasks:", e);
+      }
+    },
+    async fetchTopFilms(params: ParamsType) {
+      try {
+        let { docs, total } = await api.fetchFilmsByFilters(params);
+
+        this.films.push(...docs);
+        return this.films.length == total;
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
       }
     },
     async fetchSavedFilms(page: number) {
-      if (!this.user || this.user.films.length <= 0) return;
-      let data = await api.fetchFilmsByFilters({
-        page: page,
-        limit: 15,
-        id: this.user.films,
-      });
-
-      let { docs, total } = await data.json();
-
-      this.films.push(...docs);
-      return this.films.length == total;
       try {
+        if (!this.user || this.user.films.length <= 0) return;
+        let data = await api.fetchFilmsByFilters({
+          page: page,
+          limit: 15,
+          id: this.user.films,
+        });
+        let arr = data.docs;
+        this.films.push(...arr);
+        return this.films.length == total;
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
       }
@@ -157,7 +143,7 @@ export const useStore = defineStore({
         this.user = userData;
         localStorage.setItem("user", JSON.stringify(this.user));
       } catch (err) {
-        console.log(err.message);
+        console.log(err);
       }
     },
     async register(body) {
@@ -173,13 +159,15 @@ export const useStore = defineStore({
         localStorage.setItem("user", JSON.stringify(this.user));
         this.addElement(meta);
       } catch (err) {
-        console.log(err.message);
+        console.log(err);
       }
     },
-    async saveFilm(filmId) {
+    async saveFilm(filmId: string) {
       try {
-        const token = JSON.parse(localStorage.getItem("user"));
-        console.log(token);
+        const user = localStorage.getItem("user");
+        if (!user) throw new Error("Нет данных о пользователе");
+        const token = JSON.parse(user);
+
         const data = await api.saveFilm({ userId: this.user?._id, filmId });
         if (!data.ok) {
           const meta = await data.json();
@@ -191,10 +179,10 @@ export const useStore = defineStore({
         localStorage.setItem("user", JSON.stringify(this.user));
         this.addElement(meta);
       } catch (err) {
-        console.log(err.message);
+        console.log(err);
       }
     },
-    async delFilm(filmId) {
+    async delFilm(filmId: string) {
       try {
         const data = await api.delFilm({ userId: this.user?._id, filmId });
         if (!data.ok) {
@@ -207,7 +195,7 @@ export const useStore = defineStore({
         localStorage.setItem("user", JSON.stringify(this.user));
         this.addElement(meta);
       } catch (err) {
-        console.log(err.message);
+        console.log(err);
       }
     },
 

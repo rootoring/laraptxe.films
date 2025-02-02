@@ -1,4 +1,6 @@
-export type filmType = {
+import { Pagination } from "swiper/modules";
+
+export interface filmType {
   ageRating: number | null;
   alternativeName: string | null;
   backdrop: {
@@ -160,9 +162,99 @@ export type filmType = {
     items: [] | any;
   };
   year: number | null;
-};
+}
 
-export interface ParamsType {}
+export interface ParamsType {
+  page: number;
+  limit?: number;
+  selectFields?: string[];
+  notNullFields?: string[];
+  sortField?: string[];
+  sortType?: Array<"1" | "-1">;
+  id?: string[] | null;
+  externalId?: {
+    imdb?: string[] | null;
+    tmdb?: number[] | null;
+    kpHD?: string[] | null;
+  };
+  type?: string[] | null;
+  typeNumber?: string[] | null;
+  isSeries?: string[] | null;
+  status?: string[] | null;
+  year?: string[] | null;
+  releaseYears?: {
+    start?: string[] | null;
+    end?: string[] | null;
+  };
+  rating?: {
+    kp?: string[] | null;
+    imdb?: string[] | null;
+    tmdb?: string[] | null;
+  };
+  ratingMpaa?: string[] | null;
+  ageRating?: string[] | null;
+  votes?: {
+    kp?: string[] | null;
+    imdb?: string[] | null;
+    tmdb?: string[] | null;
+    filmCritics?: string[] | null;
+    russianFilmCritics?: string[] | null;
+    await?: string[] | null;
+  };
+  budget?: {
+    value?: string[] | null;
+  };
+  audience?: {
+    count?: string[] | null;
+  };
+  movieLength?: string[] | null;
+  seriesLength?: string[] | null;
+  totalSeriesLength?: string[] | null;
+  genres?: {
+    name?: string[] | null;
+  };
+  countries?: {
+    name?: string[] | null;
+  };
+  ticketsOnSale?: string[] | null;
+  networks?: {
+    items?: {
+      name?: string[] | null;
+    };
+  };
+  persons?: {
+    id?: string[] | null;
+    profession?: string[] | null;
+    enProfession?: string[] | null;
+  };
+  fees?: {
+    world?: string[] | null;
+    usa?: string[] | null;
+    russia?: string[] | null;
+  };
+  premiere?: {
+    world?: string[] | null;
+    usa?: string[] | null;
+    russia?: string[] | null;
+    digital?: string[] | null;
+    cinema?: string[] | null;
+    country?: string[] | null;
+  };
+  similarMovies?: {
+    id?: string[] | null;
+  };
+  sequelsAndPrequels?: {
+    id?: string[] | null;
+  };
+  watchability?: {
+    items?: {
+      name?: string[] | null;
+    };
+  };
+  lists?: string[] | null;
+  updatedAt?: string[] | null;
+  createdAt?: string[] | null;
+}
 export type MediaType =
   | "animated-series"
   | "anime"
@@ -202,3 +294,30 @@ export type Genre =
   | "фильм-нуар"
   | "фэнтези"
   | "церемония";
+
+interface ImageDocument {
+  createdAt: string;
+  height: number;
+  id: string;
+  movieId: number;
+  previewUrl: string;
+  type: string;
+  updatedAt: string;
+  url: string;
+  width: number;
+}
+
+export interface Pagination {
+  limit: number;
+  page: number;
+  pages: number;
+  total: number;
+}
+
+export interface filmImgType extends Pagination {
+  docs: ImageDocument[];
+}
+
+export interface filmsType extends Pagination {
+  docs: filmType[];
+}

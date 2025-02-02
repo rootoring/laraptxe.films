@@ -1,5 +1,10 @@
 import buildQueryParams from "../modules/queryParams";
-import { type filmType } from "../types/index";
+import type {
+  filmType,
+  filmsType,
+  filmImgType,
+  ParamsType,
+} from "../types/index";
 const keys = [
   "FA4Q5SC-PQV4MAH-MAZNTWJ-8B9F6KB",
   "WD8CXRE-YW6499C-GQHGK89-ADEXTF2",
@@ -64,7 +69,7 @@ export default () => ({
 
     return data;
   },
-  async fetchAllFilms() {
+  async fetchAllFilms(): Promise<filmsType | []> {
     try {
       let randomPage = () => {
         return Math.floor(Math.random() * 33) + 1;
@@ -80,78 +85,77 @@ export default () => ({
       if (!data.ok) {
         throw data;
       }
-      return data;
+      return await data.json();
     } catch (error) {
       if (error.status === 403) {
         currentKeyIndex++;
         if (currentKeyIndex >= keys.length) {
           currentKeyIndex = 0;
-          return {};
+          return [];
         }
         return this.fetchAllFilms();
-      } else {
-        throw error;
       }
+      return [];
     }
   },
-  async fetchFilm(id: number) {
+  async fetchFilm(id: number): Promise<filmType | null> {
     try {
       // Используем useAsyncData для асинхронного запроса
-      const { data, error } = await useAsyncData("page", async () => {
-        let attempt = 0; // Переменная для отслеживания попыток
-        let response;
-        let jsonData;
+      const { data, error } = await useAsyncData<filmType>(
+        `film-${id}`,
+        async () => {
+          let attempt = 0; // Переменная для отслеживания попыток
+          let response;
+          let jsonData;
 
-        while (attempt < keys.length) {
-          // Пока есть ключи для проверки
-          try {
-            // Выполняем запрос к API
-            response = await fetch(
-              `https://api.kinopoisk.dev/v1.4/movie/${id}`,
-              {
-                headers: {
-                  "X-API-KEY": keys[attempt],
-                },
+          while (attempt < keys.length) {
+            // Пока есть ключи для проверки
+            try {
+              // Выполняем запрос к API
+              response = await fetch(
+                `https://api.kinopoisk.dev/v1.4/movie/${id}`,
+                {
+                  headers: {
+                    "X-API-KEY": keys[attempt],
+                  },
+                }
+              );
+
+              if (!response.ok) {
+                // Если статус не 200, выбрасываем ошибку
+                throw new Error(`Ошибка HTTP: ${response.status}`);
               }
-            );
 
-            if (!response.ok) {
-              // Если статус не 200, выбрасываем ошибку
-              throw new Error(`Ошибка HTTP: ${response.status}`);
-            }
+              jsonData = await response.json();
+              return jsonData; // Возвращаем валидный результат, если нет ошибок
+            } catch (err) {
+              console.error(`Ошибка при использовании ключа: ${err.message}`);
 
-            jsonData = await response.json();
-            return jsonData; // Возвращаем валидный результат, если нет ошибок
-          } catch (err) {
-            console.error(`Ошибка при использовании ключа: ${err.message}`);
-
-            if (response && response.status === 403) {
-              // Если получили статус 403, меняем ключ
-              // Переход к следующему ключу
-              attempt++; // Увеличиваем количество попыток
-            } else {
-              // Если другая ошибка, пробрасываем её дальше
-              throw err;
+              if (response && response.status === 403) {
+                attempt++;
+              } else {
+                throw err;
+              }
             }
           }
-        }
 
-        throw new Error("Все ключи API невалидны или истекли"); // Если все ключи не сработали
-      });
+          throw new Error("Все ключи API невалидны или истекли"); // Если все ключи не сработали
+        }
+      );
 
       if (error.value) {
         console.error("Ошибка при запросе фильма:", error.value);
         throw error.value;
       }
 
-      return data; // Возвращаем данные
+      return data.value as filmType | null; // Возвращаем данные
     } catch (err) {
       console.error("Ошибка при запросе фильма:", err);
-      throw err;
+      return null;
     }
   },
 
-  async fetchImg(id: number) {
+  async fetchImg(id: number): Promise<filmImgType | {}> {
     try {
       const data = await fetch(
         `https://api.kinopoisk.dev/v1.4/image?page=1&limit=30&movieId=${id}&type=frame&type=screenshot`,
@@ -164,18 +168,17 @@ export default () => ({
       if (!data.ok) {
         throw data;
       }
-      return data;
+      return await data.json();
     } catch (error) {
       if (error.status === 403) {
         currentKeyIndex++;
-        if (currentKeyIndex >= keys.length) {
+        if (currentKeyIndex > keys.length) {
           currentKeyIndex = 0;
           return {};
         }
         return this.fetchImg(id);
-      } else {
-        throw error;
       }
+      return {};
     }
   },
   async fetchPerson(id: number) {
@@ -202,7 +205,7 @@ export default () => ({
       }
     }
   },
-  async fetchFilmsByName(name: string) {
+  async fetchFilmsByName(name: string): Promise<filmsType | []> {
     try {
       const data = await fetch(
         `https://api.kinopoisk.dev/v1.4/movie/search?page=1&limit=20&query=${name}`,
@@ -215,18 +218,20 @@ export default () => ({
       if (!data.ok) {
         throw data;
       }
-      return data;
+      return await data.json();
     } catch (error) {
       if (error.status === 403) {
         currentKeyIndex++;
-        if (currentKeyIndex >= keys.length) return {};
+        if (currentKeyIndex >= keys.length) {
+          currentKeyIndex = 0;
+          return [];
+        }
         return this.fetchFilmsByName(name);
-      } else {
-        throw error;
       }
+      return [];
     }
   },
-  async fetchFilmsByFilters(params) {
+  async fetchFilmsByFilters(params: ParamsType | string): Promise<filmsType> {
     if (typeof params !== "string") params = buildQueryParams(params);
     try {
       const data = await fetch(
@@ -240,21 +245,20 @@ export default () => ({
       if (!data.ok) {
         throw data;
       }
-      return data;
+      return await data.json();
     } catch (error) {
       if (error.status === 403) {
         currentKeyIndex++;
-        if (currentKeyIndex >= keys.length) {
+        if (currentKeyIndex > keys.length) {
           currentKeyIndex = 0;
-          return {};
+          return { docs: [], total: 0, page: 0, pages: 0, limit: 0 };
         }
         return this.fetchFilmsByFilters(params);
-      } else {
-        throw error;
       }
+      return { docs: [], total: 0, page: 0, pages: 0, limit: 0 };
     }
   },
-  async fetchRandomFilm(params: object): Promise<Response> {
+  async fetchRandomFilm(params: ParamsType | string): Promise<filmType | {}> {
     if (typeof params !== "string") params = buildQueryParams(params);
     try {
       const data = await fetch(
@@ -268,18 +272,17 @@ export default () => ({
       if (!data.ok) {
         throw data;
       }
-      return data;
+      return await data.json();
     } catch (error) {
       if (error.status === 403) {
         currentKeyIndex++;
-        if (currentKeyIndex >= keys.length) {
+        if (currentKeyIndex > keys.length) {
           currentKeyIndex = 0;
           return {};
         }
         return this.fetchRandomFilm(params);
-      } else {
-        throw error;
       }
+      return {};
     }
   },
   //  async fetchSavedFilms(id:string)
