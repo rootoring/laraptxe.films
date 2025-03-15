@@ -69,7 +69,7 @@ export default () => ({
 
     return data;
   },
-  async fetchAllFilms(): Promise<filmsType | []> {
+  async fetchAllFilms(): Promise<filmsType | null> {
     try {
       let randomPage = () => {
         return Math.floor(Math.random() * 33) + 1;
@@ -91,11 +91,11 @@ export default () => ({
         currentKeyIndex++;
         if (currentKeyIndex >= keys.length) {
           currentKeyIndex = 0;
-          return [];
+          return null;
         }
         return this.fetchAllFilms();
       }
-      return [];
+      return null;
     }
   },
   async fetchFilm(id: number): Promise<filmType | null> {
@@ -155,7 +155,7 @@ export default () => ({
     }
   },
 
-  async fetchImg(id: number): Promise<filmImgType | {}> {
+  async fetchImg(id: number): Promise<filmImgType | null> {
     try {
       const data = await fetch(
         `https://api.kinopoisk.dev/v1.4/image?page=1&limit=30&movieId=${id}&type=frame&type=screenshot`,
@@ -174,11 +174,11 @@ export default () => ({
         currentKeyIndex++;
         if (currentKeyIndex > keys.length) {
           currentKeyIndex = 0;
-          return {};
+          return null;
         }
         return this.fetchImg(id);
       }
-      return {};
+      return null;
     }
   },
   async fetchPerson(id: number) {
@@ -205,7 +205,7 @@ export default () => ({
       }
     }
   },
-  async fetchFilmsByName(name: string): Promise<filmsType | []> {
+  async fetchFilmsByName(name: string): Promise<filmsType | null> {
     try {
       const data = await fetch(
         `https://api.kinopoisk.dev/v1.4/movie/search?page=1&limit=20&query=${name}`,
@@ -224,14 +224,16 @@ export default () => ({
         currentKeyIndex++;
         if (currentKeyIndex >= keys.length) {
           currentKeyIndex = 0;
-          return [];
+          return null;
         }
         return this.fetchFilmsByName(name);
       }
-      return [];
+      return null;
     }
   },
-  async fetchFilmsByFilters(params: ParamsType | string): Promise<filmsType> {
+  async fetchFilmsByFilters(
+    params: ParamsType | string
+  ): Promise<filmsType | null> {
     if (typeof params !== "string") params = buildQueryParams(params);
     try {
       const data = await fetch(
@@ -251,11 +253,11 @@ export default () => ({
         currentKeyIndex++;
         if (currentKeyIndex > keys.length) {
           currentKeyIndex = 0;
-          return { docs: [], total: 0, page: 0, pages: 0, limit: 0 };
+          return null;
         }
         return this.fetchFilmsByFilters(params);
       }
-      return { docs: [], total: 0, page: 0, pages: 0, limit: 0 };
+      return null;
     }
   },
   async fetchRandomFilm(params: ParamsType | string): Promise<filmType | {}> {

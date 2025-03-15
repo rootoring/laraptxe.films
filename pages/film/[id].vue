@@ -109,7 +109,7 @@
     </div>
     <div class="container">
       <h2 class="fs-xl color-gray300 mt-l mb-s">Рекомендуем к просмотру</h2>
-      <RecSlider :data="store?.films?.docs?.slice(10)" />
+      <RecSlider :data="store?.films?.slice(10)" />
     </div>
   </div>
 </template>

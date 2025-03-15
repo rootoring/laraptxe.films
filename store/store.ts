@@ -9,10 +9,10 @@ import apiModule from "../api";
 
 const api = apiModule();
 interface State {
-  films: filmType[] | [];
+  films: filmType[];
   film: filmType | {};
   filmImg: filmImgType | {};
-  anime: filmsType | {};
+  anime: filmType[];
   filterFilm: filmsType | {};
   menuStatus: boolean;
   user: {
@@ -31,7 +31,7 @@ export const useStore = defineStore({
     films: [],
     film: {},
     filmImg: {},
-    anime: {},
+    anime: [],
     filterFilm: {},
     menuStatus: false,
     user: null,
@@ -45,7 +45,8 @@ export const useStore = defineStore({
   actions: {
     async fetchFilms() {
       try {
-        this.films = await api.fetchAllFilms();
+        let data = await api.fetchAllFilms();
+        if (data) this.films = data.docs;
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
       }
@@ -61,14 +62,16 @@ export const useStore = defineStore({
     },
     async fetchImg(id: number) {
       try {
-        this.filmImg = await api.fetchImg(id);
+        let data = await api.fetchImg(id);
+        if (data !== null) this.filmImg = data;
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
       }
     },
     async fetchFilmsByName(name: string) {
       try {
-        this.films = await api.fetchFilmsByName(name);
+        let data = await api.fetchFilmsByName(name);
+        if (data) this.films = data.docs;
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
       }
@@ -85,14 +88,16 @@ export const useStore = defineStore({
       };
 
       try {
-        this.anime = await api.fetchFilmsByFilters(animeParams);
+        let data = await api.fetchFilmsByFilters(animeParams);
+        if (data) this.anime.push(...data.docs);
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
       }
     },
     async fetchFilter(params: ParamsType) {
-      this.filterFilm = await api.fetchFilmsByFilters(params);
+      let data = await api.fetchFilmsByFilters(params);
 
+      if (data) this.filterFilm = data.docs;
       try {
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
@@ -107,10 +112,11 @@ export const useStore = defineStore({
     },
     async fetchTopFilms(params: ParamsType) {
       try {
-        let { docs, total } = await api.fetchFilmsByFilters(params);
-
-        this.films.push(...docs);
-        return this.films.length == total;
+        let data: filmsType | null = await api.fetchFilmsByFilters(params);
+        if (data) {
+          this.films.push(...data.docs);
+          return this.films.length == data.total;
+        }
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
       }
@@ -123,9 +129,10 @@ export const useStore = defineStore({
           limit: 15,
           id: this.user.films,
         });
-        let arr = data.docs;
-        this.films.push(...arr);
-        return this.films.length == total;
+        if (data) {
+          this.films.push(...data.docs);
+          return this.films.length == data.total;
+        }
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
       }

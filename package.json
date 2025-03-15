@@ -11,6 +11,7 @@
     "start": "nuxt start"
   },
   "dependencies": {
+    "@nuxt/image": "^1.9.0",
     "@pinia/nuxt": "^0.5.2",
     "nuxt": "^3.12.1",
     "pinia": "^2.2.0",

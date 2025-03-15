@@ -27,7 +27,7 @@
     class="mySwiper"
   >
     <swiper-slide v-for="img of data">
-      <img :src="img?.previewUrl" alt="" class="slide-img"
+      <NuxtImg :src="img?.url" alt="" class="slide-img"
     /></swiper-slide>
   </swiper>
 </template>
@@ -37,6 +37,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+
 const modules = [Pagination, Navigation, Autoplay];
 
 defineProps({

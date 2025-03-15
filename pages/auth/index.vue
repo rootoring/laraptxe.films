@@ -87,7 +87,7 @@
         </p>
       </div>
       <btn class="btn mt-l" @click="registerUser" :disabled="!checkReg"
-        >Регестрация</btn
+        >Регистрация</btn
       >
       <div class="color-gray800 text-center pt-l">
         Есть аккаунт?

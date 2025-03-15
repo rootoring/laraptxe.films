@@ -19,7 +19,7 @@
     class="mySwiper3"
     loop
   >
-    <swiper-slide v-for="film in store?.films?.docs?.slice(0, 10)"
+    <swiper-slide v-for="film in store?.films?.slice(0, 10)"
       ><card :data="film"
     /></swiper-slide>
   </swiper>

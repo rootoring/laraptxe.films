@@ -12,11 +12,18 @@
       </button>
       <nav class="d-flex items-center h-full justify-center">
         <ul class="d-flex gap-l flex-center-column">
-          <li class="d-flex items-center nav-list hov-text">
+          <!-- <li class="d-flex items-center nav-list hov-text">
             <NuxtLink
               to="/happyNewYear"
               class="font-ubuntu color-black fs-l text-center d-flex items-center"
               >Новогодняя подпорка</NuxtLink
+            >
+          </li> -->
+          <li class="d-flex items-center nav-list hov-text">
+            <NuxtLink
+              to="/new"
+              class="font-ubuntu color-black fs-l d-flex items-center"
+              >Новинки</NuxtLink
             >
           </li>
           <li class="d-flex items-center nav-list hov-text">

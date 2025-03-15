@@ -8,19 +8,19 @@
         <TransitionGroup
           name="list"
           tag="div"
-          v-if="store?.filterFilm?.docs"
+          v-if="store?.filterFilm"
           class="d-flex flex-wrap-center gap-s mt-l"
         >
           <FilmCard
-            v-for="film of store?.filterFilm?.docs"
+            v-for="film of store?.filterFilm"
             :data="film"
             :key="film.id"
           />
         </TransitionGroup>
         <h2 class="fs-xl color-gray300 mt-l mb-s">Рекомендуем к просмотру</h2>
-        <RecSlider :data="store?.films?.docs?.slice(10)" />
+        <RecSlider :data="store?.films?.slice(10)" />
         <h2 class="fs-xl color-gray300 mt-l mb-s">Самое лучшее Аниме</h2>
-        <RecSlider :data="store?.anime?.docs" />
+        <RecSlider :data="store?.anime" />
       </section>
     </div>
   </div>
