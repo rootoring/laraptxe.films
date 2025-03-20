@@ -8,7 +8,7 @@
       placeholder="Введите название фильма или сериала"
     />
     <section class="foundFilms d-flex flex-wrap justify-center gap-m mt-l">
-      <div v-for="film of store.films.docs">
+      <div v-for="film of store.films">
         <filmCard :data="film" />
       </div>
       <p
