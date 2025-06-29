@@ -42,7 +42,7 @@ export default defineNuxtConfig({
         },
       ],
       script: [
-        { src: "https://kinobox.tv/kinobox.min.js", async: true, defer: true },
+        // { src: "https://kinobox.tv/kinobox.min.js", async: true, defer: true },
       ],
     },
   },

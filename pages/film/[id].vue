@@ -9,9 +9,7 @@
         <div class="info-left pr-s">
           <img
             :src="
-              !!store?.film?.poster?.url
-                ? transformImageUrl(store?.film?.poster?.url)
-                : 'logo.jpg'
+              !!store?.film?.poster?.url ? store?.film?.poster?.url : 'logo.jpg'
             "
             :alt="'Постер фильма/сериала' + store.film.name"
             class="film-poster"
@@ -62,7 +60,7 @@
         </div>
       </div>
       <section>
-        <p class="fs-xl color-gray500">Плеер 1</p>
+        <p class="fs-xl color-gray500">Плеер</p>
         <iframe
           id="cinemaplayer-iframe"
           frameborder="0"
@@ -74,10 +72,10 @@
           :src="'https://toembed.com/iframe/' + route.params.id"
         ></iframe>
       </section>
-      <section>
+      <!-- <section>
         <p class="fs-xl color-gray500 mt-m">Плеер 2</p>
         <div class="kinobox_player film-iframe"></div>
-      </section>
+      </section> -->
     </div>
     <section>
       <div class="container">
@@ -107,7 +105,7 @@
         <RecSlider :data="store?.film?.similarMovies" />
       </div>
     </div>
-    <div class="container">
+    <div class="container" v-if="store?.films?.slice(10).length">
       <h2 class="fs-xl color-gray300 mt-l mb-s">Рекомендуем к просмотру</h2>
       <RecSlider :data="store?.films?.slice(10)" />
     </div>
@@ -143,11 +141,11 @@ const addfilm = async (e) => {
 };
 onMounted(async () => {
   await store.fetchImg(route.params.id);
-  await kbox(".kinobox_player", {
-    search: {
-      kinopoisk: route.params.id,
-    },
-  });
+  // await kbox(".kinobox_player", {
+  //   search: {
+  //     kinopoisk: route.params.id,
+  //   },
+  // });
   if (!store.films.docs) await store.fetchFilms();
 });
 let ssrFetch = async () => {

@@ -4,7 +4,7 @@
       class="movie-card"
       :style="{
         backgroundImage: `url(${
-          data?.poster?.url ? transformImageUrl(data?.poster?.url) : 'logo.jpg'
+          data?.poster?.url ? data?.poster?.url : 'logo.jpg'
         })`,
       }"
     >
